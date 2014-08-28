@@ -98,7 +98,7 @@ def add_item(request):
 				item.photo = request.FILES['photo']
 
 			item.save() # saves form data to database.
-
+			return HttpResponseRedirect('/sharing/inventory/')
 		else:
 			print item_form.errors
 
@@ -232,4 +232,4 @@ def delete_item (request, item_id): # Process to delete an item.
 	item = get_object_or_404(Item, member__user=request.user, id=item_id)
 	print item.name
 	item.delete()
-	return HttpResponse(item.name)
+	return HttpResponseRedirect('/sharing/inventory/')
