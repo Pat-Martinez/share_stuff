@@ -17,6 +17,9 @@ urlpatterns = patterns('',
         url(r'^(?i)join_requests/process/(?P<request_id>\w+)/$', 
                 views.process, name='process'),
         url(r'^(?i)inventory/delete_item/(?P<item_id>\w+)/$', 
-                views.delete_item, name='delete_item'),        
+                views.delete_item, name='delete_item'),
+        url(r'^(?i)groups/$', views.groups, name='groups'),
+        url(r'^(?i)groups/group_info/(?P<group_id>\w+)/$', 
+                views.group_info, name='group_info'),
 )
 

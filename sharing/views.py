@@ -10,13 +10,17 @@ from datetime import datetime
 
 
 def index(request):
-	return render(request, 'sharing/index.html')
+
+	groups = Group.objects.all()
+	for group in groups:
+		print group.id
+	return render(request, 'sharing/index.html', {'groups': groups})
 
 
 def about(request):
     return render(request, 'sharing/about.html')
 
-
+# View for someone to register as a member.
 def register(request):
 	registered = False
 
@@ -51,7 +55,6 @@ def register(request):
 
 
 def sign_in(request):
-	
 	if request.method == "POST":
 		username = request.POST['username']
 		password = request.POST['password']
@@ -79,9 +82,9 @@ def sign_out(request):
 	return HttpResponseRedirect('/sharing/')
 
 @login_required
+# View for a member to add an item to share
 def add_item(request):
 
-	# item_added = False
 	context_dict = {}
 
 	if request.method == "POST":
@@ -110,6 +113,7 @@ def add_item(request):
 	return render(request, 'sharing/add_item.html', context_dict)
 
 @login_required
+# View for a member to add a new sharing group.
 def add_group(request):
 	group_added = False
 
@@ -138,15 +142,15 @@ def add_group(request):
 				 'group_added': group_added})
 
 @login_required
+# View to show a particular members inventory of items.
 def inventory(request):
 	# Query for items.
 	item_list = Item.objects.filter(member__user=request.user)
-	
-
 	context_dict = {'items': item_list,}
 	return render(request, 'sharing/inventory.html', context_dict)
 
 @login_required
+# View to show info about a specific member.
 def member(request):
 	group_items = []
 	# list of a member's items
@@ -172,6 +176,7 @@ def member(request):
 	return render(request, 'sharing/member.html', context_dict)
 
 @login_required
+# View for moderator to see their list of join requests submitted by members.
 def join_requests(request):
 	join_request_list= JoinRequest.objects.filter(group__moderator__member__user=request.user)
 	requests_pending = []
@@ -193,6 +198,7 @@ def join_requests(request):
 	return render(request, 'sharing/join_requests.html', context_dict,)
 
 @login_required
+# function to process a moderator's response to a request to join their Group.
 def process(request, request_id):
 
 	if request.method == "POST":
@@ -227,9 +233,18 @@ def process(request, request_id):
 	return HttpResponseRedirect('/sharing/join_requests/')
 
 @login_required
-def delete_item (request, item_id): # Process to delete an item.
-
+# Process to delete an item.
+def delete_item (request, item_id):
 	item = get_object_or_404(Item, member__user=request.user, id=item_id)
-	print item.name
 	item.delete()
 	return HttpResponse(item.name)
+
+# View to list all the available sharing groups.
+def groups(request):
+	groups = Group.objects.all()
+	return render (request, 'sharing/groups.html', {'groups': groups})
+
+# View to show the info for a specific group.
+def group_info (request, group_id):
+	group = get_object_or_404(Group, id=group_id)
+	return render (request, 'sharing/group_info.html', {'group': group,})

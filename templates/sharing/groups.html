@@ -1,0 +1,11 @@
+{% extends 'sharing/base.html' %}
+{% block title %} Groups Page {% endblock %}
+
+{% block body_block %}
+    <h2>Available Sharing Groups</h2>
+    {% for group in groups %}
+    <li> <a href="group_info/{{ group.id }}">{{ group.name }}</a> </li>
+    {% endfor %}
+{% endblock %}
+
+
