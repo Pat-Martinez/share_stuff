@@ -101,7 +101,7 @@ def add_item(request):
 				item.photo = request.FILES['photo']
 
 			item.save() # saves form data to database.
-
+			return HttpResponseRedirect('/sharing/inventory/')
 		else:
 			print item_form.errors
 
@@ -232,19 +232,23 @@ def process(request, request_id):
 
 	return HttpResponseRedirect('/sharing/join_requests/')
 
+
 @login_required
 # Process to delete an item.
 def delete_item (request, item_id):
 	item = get_object_or_404(Item, member__user=request.user, id=item_id)
 	item.delete()
-	return HttpResponse(item.name)
+	return HttpResponseRedirect('/sharing/inventory/')
+
 
 # View to list all the available sharing groups.
 def groups(request):
 	groups = Group.objects.all()
 	return render (request, 'sharing/groups.html', {'groups': groups})
 
+
 # View to show the info for a specific group.
 def group_info (request, group_id):
 	group = get_object_or_404(Group, id=group_id)
 	return render (request, 'sharing/group_info.html', {'group': group,})
+
