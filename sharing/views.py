@@ -10,10 +10,7 @@ from datetime import datetime
 
 
 def index(request):
-
 	groups = Group.objects.all()
-	for group in groups:
-		print group.id
 	return render(request, 'sharing/index.html', {'groups': groups})
 
 
@@ -94,6 +91,7 @@ def add_item(request):
 			# (commit=False) doesn't save data to database
 			item = item_form.save(commit=False)
 			item.member = request.user.member
+		
 			# use item_name as boolean in template.
 			context_dict['item_name'] = item.name
 
@@ -123,8 +121,8 @@ def add_group(request):
 
 		if group_form.is_valid():
 			# (commit= False) doesn't save data to database 
-			group = group_form.save(commit=False) 
-			group.moderator = request.user.member
+			group = group_form.save(commit=False)
+			group.moderator = Moderator.objects.get_or_create(member=request.user.member)[0]
 
 			if 'group_picture' in request.FILES:
 				group.photo = request.FILES['group_picture']

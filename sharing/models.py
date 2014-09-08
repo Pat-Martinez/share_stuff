@@ -19,7 +19,8 @@ class Moderator(models.Model):
 	member = models.ForeignKey(Member, related_name = 'moderator')
 
 	def __unicode__(self):
-		return self.member.user.username
+		return "%s %s (%s)" %(self.member.user.first_name, self.member.user.last_name,
+			self.member.user.username)
 
 	class Meta:
 		verbose_name_plural = "Moderators"
@@ -77,3 +78,20 @@ class JoinRequest(models.Model):
 
 	class Meta:
 		verbose_name_plural = "Join request"
+		
+
+# class BorrowItem(models.Model):
+# 	item = models.ForeignKey(Item, related_name = 'item')
+# 	borrower = models.ForeignKey(Member, related_name = 'borrower')
+# 	loaner = models.ForeignKey(Member, related_name = 'loaner')
+# 	loan_status = models.BooleanField()
+# 	request_date = models.DateTimeField()
+# 	pickup_date = models.DateTimeField()
+# 	expected_return_date = models.DateTimeField()
+# 	actual_return_date = models.DateTimeField()
+
+# 	def __unicode__(self):
+# 		return "Item: %s-- Borrower: %s, Loaner: %s" %(self.item, self.borrower,
+# 				self.loaner)
+
+
