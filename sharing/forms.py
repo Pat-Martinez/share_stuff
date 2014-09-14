@@ -44,5 +44,3 @@ class AcceptRequestForm(forms.ModelForm):
 # class BorrowItemForm(forms.ModelForm):
 # 	class Meta:
 # 		model = BorrowRequestForm
-
-

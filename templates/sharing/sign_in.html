@@ -1,22 +1,17 @@
-<!DOCTYPE html>
+{% extends 'sharing/base.html' %}
+{% block title %} Sign In {% endblock %}
 
-<html>
-	<head>
-		<title>Share Stuff Sign In</title>
-	</head>
-	
-	<body>
-		<h1>Login to Share Stuff</h1>
+{% block body_block %}
 
-		<form id="Signin_form" method="post" action="/sharing/sign_in/">
-			{% csrf_token %}
-			Username: <input type="text" name="username" value="" size="30"/>
-			<br>
-			Password: <input type="password" name="password" value="" size="30"/>
-			<br>
+<div class="container">
+      <form class="form-signin"  id="Signin_form" method="post" action="/sharing/sign_in/"role="form">
+        {% csrf_token %}
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input type="text" class="form-control" placeholder="Username" name= 'username' required autofocus>
+        
+        <input type="password" class="form-control" placeholder="Password" name= 'password' required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+      </form>
+</div> <!-- /container -->
 
-			<input type="submit" value="Sign In"/>
-		</form>
-	
-	</body>
-</html>
+{% endblock %}

@@ -1,18 +1,17 @@
-<!DOCTYPE html>
+{% extends 'sharing/base.html' %}
+{% block title %} About {% endblock %}
 
-<html>
+{% block body_block %}
 
-	<head>
-		<title>About Page</title>
-	</head>
-	
-	<body>
+<div class='jumbotron'>
+	<h1>About Share Stuff</h1>
 
-		<h1>Welcome to the About Page!</h1>
-		<a href="/sharing/">Home Page</a>
+	<p>Share Stuff is my first Web App created with Django. </p>
+	<p></p>
+</div>
 
-		<br>
-		{{welcome}}
-	</body>
+<div class='row'>
 
-</html>
+</div>
+
+{% endblock %}

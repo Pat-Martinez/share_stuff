@@ -62,7 +62,7 @@ def sign_in(request):
 		if member:
 			if member.is_active:
 				login(request, member)
-				return HttpResponseRedirect('/sharing/')
+				return HttpResponseRedirect('/sharing/member/')
 			else:
                 # An inactive account was used - no logging in!
 				return HttpResponse("Your sharing account is disabled.")

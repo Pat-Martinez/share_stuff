@@ -85,9 +85,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
-
 STATIC_URL = '/static/'
+STATIC_ROOT = 'staticfiles'
 
+# don't forget the last comma.  STATICFILES_DIRS is a tupple.
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+#Media Files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
+
 LOGIN_URL = '/sharing/sign_in/'
+

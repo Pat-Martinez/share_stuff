@@ -1,32 +1,13 @@
-<!DOCTYPE html>
+{% extends 'sharing/base.html' %}
+{% block title %} Welcome! {% endblock %}
 
-<html>
+{% block body_block %}
 
-	<head>
-		<title>Share Stuff</title>
-	</head>
-	
-	<body>
-		<h1>Welcome to Share Stuff!</h1>
+<div class='jumbotron'>
+	<h1>Welcome to Share Stuff!</h1>
 
-		<a href="about/">About Page</a>
-		<br>
-		<a href="groups/">Sharing Groups</a>
-		<br>
-		{% if user.is_authenticated %}
-			<a href="add_item/">Add an Item to Share</a>
-			<br>
-			<a href="add_group/">Create a Group</a>
-			<br>
-			<a href="inventory/">Your Inventory</a>
-			<br>
-			<a href="sign_out/">Sign Out</a>
-		{% else %}
-			<a href="register/">Register Here</a>
-			<br>
-			<a href="sign_in/">Sign In</a>
-		{% endif %}
+	<p>Need a cordless drill for that one-time or rare project and would rather borrow than buy one? Give Share Stuff a try. </p>
+	<p>List items (kitchen stuff, electronics, tools, outdoor gear, etc.) that you're willing to share with others, and find stuff to borrow.</p>
+</div>
 
-
-	</body>
-</html>
+{% endblock %}
