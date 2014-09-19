@@ -80,18 +80,22 @@ class JoinRequest(models.Model):
 		verbose_name_plural = "Join request"
 		
 
-# class BorrowItem(models.Model):
-# 	item = models.ForeignKey(Item, related_name = 'item')
-# 	borrower = models.ForeignKey(Member, related_name = 'borrower')
-# 	loaner = models.ForeignKey(Member, related_name = 'loaner')
-# 	loan_status = models.BooleanField()
-# 	request_date = models.DateTimeField()
-# 	pickup_date = models.DateTimeField()
-# 	expected_return_date = models.DateTimeField()
-# 	actual_return_date = models.DateTimeField()
+class BorrowItem(models.Model):
+	item = models.ForeignKey(Item, related_name = 'item')
+	borrower = models.ForeignKey(Member, related_name = 'borrower')
+	loaner = models.ForeignKey(Member, related_name = 'loaner')
+	loan_status = models.BooleanField()
+	request_date = models.DateTimeField()
+	accept_request = models.BooleanField()
+	reject_request = models.BooleanField()
+	
+	# *** Consider adding in later versions of app ***
+	# pickup_date = models.DateTimeField()
+	# expected_return_date = models.DateTimeField()
+	# actual_return_date = models.DateTimeField()
 
-# 	def __unicode__(self):
-# 		return "Item: %s-- Borrower: %s, Loaner: %s" %(self.item, self.borrower,
-# 				self.loaner)
+	def __unicode__(self):
+		return "Item: %s-- Borrower: %s, Loaner: %s" %(self.item, self.borrower,
+				self.loaner)
 
 

@@ -3,7 +3,7 @@ from django.template import RequestContext
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from sharing.forms import UserForm, MemberForm, ItemForm, GroupForm, AcceptRequestForm
-from sharing.models import Member, Group, Item, Moderator, JoinRequest
+from sharing.models import Member, Group, Item, Moderator, JoinRequest, BorrowItem
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
@@ -16,6 +16,7 @@ def index(request):
 
 def about(request):
     return render(request, 'sharing/about.html', {'navbar': 'about'})
+
 
 # View for someone to register as a member.
 def register(request):
@@ -78,6 +79,7 @@ def sign_out(request):
 	logout(request)
 	return HttpResponseRedirect('/sharing/')
 
+
 @login_required
 # View for a member to add an item to share
 def add_item(request):
@@ -110,6 +112,7 @@ def add_item(request):
 	context_dict['navbar'] = 'add_item'
 		
 	return render(request, 'sharing/add_item.html', context_dict)
+
 
 @login_required
 # View for a member to add a new sharing group.
@@ -148,10 +151,12 @@ def inventory(request):
 	context_dict = {'items': item_list,}
 	return render(request, 'sharing/inventory.html', context_dict)
 
+
 @login_required
 # View to show info about a specific member.
 def member(request):
 	group_items = []
+	group_members = []
 	# list of a member's items
 	item_list = Item.objects.filter(member__user=request.user)
 	# is the member a moderator?
@@ -174,6 +179,7 @@ def member(request):
 			'groups': groups, 'group_members': group_members, 'group_items': group_items}
 	return render(request, 'sharing/member.html', context_dict)
 
+
 @login_required
 # View for moderator to see their list of join requests submitted by members.
 def join_requests(request):
@@ -195,6 +201,7 @@ def join_requests(request):
 			'accept_request_form': accept_request_form, 'requests_pending': requests_pending,
 			'requests_completed': requests_completed}
 	return render(request, 'sharing/join_requests.html', context_dict,)
+
 
 @login_required
 # function to process a moderator's response to a request to join their Group.
