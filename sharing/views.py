@@ -11,11 +11,11 @@ from datetime import datetime
 
 def index(request):
 	groups = Group.objects.all()
-	return render(request, 'sharing/index.html', {'groups': groups})
+	return render(request, 'sharing/index.html', {'groups': groups, 'navbar': 'home'})
 
 
 def about(request):
-    return render(request, 'sharing/about.html')
+    return render(request, 'sharing/about.html', {'navbar': 'about'})
 
 # View for someone to register as a member.
 def register(request):
@@ -48,7 +48,7 @@ def register(request):
 		member_form = MemberForm()
 		
 	return render(request, 'sharing/register.html', {'user_form': user_form,
-				'member_form': member_form, 'registered': registered})
+				'member_form': member_form, 'registered': registered, 'navbar': 'register'})
 
 
 def sign_in(request):
@@ -71,7 +71,7 @@ def sign_in(request):
 			print "Invalid login details: {0}, {1}".format(username, password)
 			return render(request, 'sharing/sign_in.html', {'invalid': "Invalid username or password"})
 	else:
-		return render(request, 'sharing/sign_in.html',)
+		return render(request, 'sharing/sign_in.html', {'navbar': 'sign_in'})
 
 
 def sign_out(request):
@@ -107,6 +107,7 @@ def add_item(request):
 		item_form = ItemForm()
 
 	context_dict['item_form'] = item_form
+	context_dict['navbar'] = 'add_item'
 		
 	return render(request, 'sharing/add_item.html', context_dict)
 
