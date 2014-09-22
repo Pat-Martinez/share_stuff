@@ -11,7 +11,7 @@
                 <br>
                 Request date: {{ req.request_date|date }}
                 <!-- TO DO: Need to code view to process form.  -->
-                <form method="post" action="/sharing/borrow_requests/borrow_process/{{ req.id }}/">
+                <form method="post" action="/sharing/borrow_requests/process/{{ req.id }}/">
                 {{ borrow_request_form }}
                 {% csrf_token %}
                 <input type="submit" name="submit" value="Submit"></input> <br><br>
@@ -31,7 +31,7 @@
         <ul>
             {% for req in requests_completed %}
             <li>{{ req.borrower }} - 
-                {% if req.accept %} Accepted
+                {% if req.accept_request %} Accepted
                 {% else %} Rejected
                 {% endif %}
                 on {{ req.action_date|date }}

@@ -215,6 +215,7 @@ def join_req_process(request, request_id):
 		join_request = get_object_or_404(JoinRequest,
 				group__moderator__member__user=request.user, id=request_id)
 		print request.POST
+		print "join_request= ", join_request
 		accept_request_form = AcceptRequestForm(data=request.POST)
 
 		if accept_request_form.is_valid():
@@ -280,11 +281,39 @@ def borrow_requests (request):
 	borrow_request_form = BorrowRequestForm()
 
 	context_dict = {'borrow_request_list': borrow_request_list,
-			'requests_pending': requests_pending, 'requests_completed': requests_completed,
+			'requests_pending': requests_pending,
+			'requests_completed': requests_completed,
 			'borrow_request_form': borrow_request_form}
 	return render(request, 'borrow_requests.html', context_dict)
 
-
+@login_required
 # function to process a member's response to borrow one of their items
-	def borrow_req_process(request, borrow_id):
-		pass
+def borrow_req_process(request, borrow_id):
+	# confirm request exists
+	if request.method == "POST":
+		borrow_request = get_object_or_404(BorrowRequest,
+				item__member__user=request.user, id=borrow_id)
+		borrow_request_form = BorrowRequestForm(data=request.POST)
+		print "borrow_request= ", borrow_request
+
+		if borrow_request_form.is_valid():
+			form = borrow_request_form.save(commit = False)
+
+			# Check for valid choices.
+			if ((form.accept_request and form.reject_request) or 
+			(not form.accept_request and not form.reject_request)):
+				error = "Invalid: select either accept or reject"
+				return render(request, 'borrow_requests.html', {'error': error})
+
+			borrow_request.action_date = datetime.now()
+			borrow_request.accept_request = form.accept_request
+			borrow_request.reject_request = form.reject_request
+			borrow_request.save()
+		else:
+			print borrow_request_form.errors
+	else:
+		print "process: GET request ignored"
+	return HttpResponseRedirect('/sharing/borrow_requests/')
+
+
+

@@ -22,6 +22,7 @@ urlpatterns = patterns('',
         url(r'^(?i)groups/group_info/(?P<group_id>\w+)/$', 
                 views.group_info, name='group_info'),
         url(r'^(?i)borrow_requests/$', views.borrow_requests, name='borrow_requests'),
+        url(r'^(?i)borrow_requests/process/(?P<borrow_id>\w+)/$', 
+                views.borrow_req_process, name='process'),
 
 )
-
