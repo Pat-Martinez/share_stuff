@@ -65,6 +65,7 @@ class Group(models.Model):
 	class Meta:
 		verbose_name_plural = "Groups"
 
+
 class JoinRequest(models.Model):
 	requestor = models.ForeignKey(Member, related_name = 'requestor')
 	group = models.ForeignKey(Group)
@@ -77,10 +78,10 @@ class JoinRequest(models.Model):
 		return "Member: %s --- Moderator: %s" %(self.requestor.user, self.group.moderator)
 
 	class Meta:
-		verbose_name_plural = "Join request"
+		verbose_name_plural = "Join Requests"
 		
 
-class BorrowItem(models.Model):
+class BorrowRequest(models.Model):
 	item = models.ForeignKey(Item, related_name = 'item')
 	borrower = models.ForeignKey(Member, related_name = 'borrower')
 	loaner = models.ForeignKey(Member, related_name = 'loaner')
@@ -88,6 +89,8 @@ class BorrowItem(models.Model):
 	request_date = models.DateTimeField()
 	accept_request = models.BooleanField()
 	reject_request = models.BooleanField()
+	# Date that member (loaner) accepted or rejected request.
+	action_date = models.DateTimeField(null=True, blank=True)
 	
 	# *** Consider adding in later versions of app ***
 	# pickup_date = models.DateTimeField()
@@ -97,5 +100,7 @@ class BorrowItem(models.Model):
 	def __unicode__(self):
 		return "Item: %s-- Borrower: %s, Loaner: %s" %(self.item, self.borrower,
 				self.loaner)
+	class Meta:
+		verbose_name_plural = "Borrow Requests"
 
 

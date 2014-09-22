@@ -1,4 +1,4 @@
-{% extends 'sharing/base.html' %}
+{% extends 'base.html' %}
 {% block title %} Member Page {% endblock %}
 
 {% block body_block %}
@@ -22,7 +22,8 @@
         {% endif %}
 
         {% if moderator %}
-        <a href="/sharing/join_requests/"> View Requests to Join Group </a><br>
+        Pending Requests: "   " <a href="/sharing/join_requests/"> View Requests to Join Group </a> 
+        <br>
         {% endif %}
 
         {% if groups %}

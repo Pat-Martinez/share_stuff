@@ -1,15 +1,13 @@
-{% extends 'sharing/base.html' %}
+{% extends 'base.html' %}
 {% block title %} Join Requests {% endblock %}
 
 {% block body_block %}
-           <strong> {{ error }} </strong>
 
      {% if requests_pending %}
-       <h1>Pending join requests for {{ user }}</h1>
-        <strong> {{ error }} </strong>
+       <h2>Pending join requests for {{ user }}</h2>
         <ul>
             {% for req in requests_pending %}
-            <li>{{ req.requestor }} 
+            <li>{{ req.requestor }}
                 <form method="post" action="/sharing/join_requests/process/{{ req.id }}/">
                 {{ accept_request_form }}
                 {% csrf_token %}
@@ -18,13 +16,14 @@
             </li>
             {% endfor %}
         </ul>
-
+    {% elif error %}
+        <strong> {{ error }} </strong>
     {% else %}
         <strong>You have no Pending Join Requests.</strong>
     {% endif %}
 
     {% if requests_completed %}
-       <h1> Completed join requests for {{ user }}</h1>
+       <h2> Completed join requests for {{ user }}</h2>
         
         <ul>
             {% for req in requests_completed %}

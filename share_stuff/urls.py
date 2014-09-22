@@ -10,6 +10,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^sharing/', include('sharing.urls')),
+    url(r'^messages/', include('django_messages.urls')),
 )
 
 if settings.DEBUG:

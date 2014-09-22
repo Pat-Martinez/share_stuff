@@ -3,7 +3,8 @@ from django.template import RequestContext
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from sharing.forms import UserForm, MemberForm, ItemForm, GroupForm, AcceptRequestForm
-from sharing.models import Member, Group, Item, Moderator, JoinRequest, BorrowItem
+from sharing.forms import BorrowRequestForm
+from sharing.models import Member, Group, Item, Moderator, JoinRequest, BorrowRequest
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
@@ -11,11 +12,11 @@ from datetime import datetime
 
 def index(request):
 	groups = Group.objects.all()
-	return render(request, 'sharing/index.html', {'groups': groups, 'navbar': 'home'})
+	return render(request, 'index.html', {'groups': groups, 'navbar': 'home'})
 
 
 def about(request):
-    return render(request, 'sharing/about.html', {'navbar': 'about'})
+    return render(request, 'about.html', {'navbar': 'about'})
 
 
 # View for someone to register as a member.
@@ -48,7 +49,7 @@ def register(request):
 		user_form = UserForm()
 		member_form = MemberForm()
 		
-	return render(request, 'sharing/register.html', {'user_form': user_form,
+	return render(request, 'register.html', {'user_form': user_form,
 				'member_form': member_form, 'registered': registered, 'navbar': 'register'})
 
 
@@ -70,9 +71,9 @@ def sign_in(request):
 		else:
         # Bad login details were provided. So we can't log the user in.
 			print "Invalid login details: {0}, {1}".format(username, password)
-			return render(request, 'sharing/sign_in.html', {'invalid': "Invalid username or password"})
+			return render(request, 'sign_in.html', {'invalid': "Invalid username or password"})
 	else:
-		return render(request, 'sharing/sign_in.html', {'navbar': 'sign_in'})
+		return render(request, 'sign_in.html', {'navbar': 'sign_in'})
 
 
 def sign_out(request):
@@ -111,7 +112,7 @@ def add_item(request):
 	context_dict['item_form'] = item_form
 	context_dict['navbar'] = 'add_item'
 		
-	return render(request, 'sharing/add_item.html', context_dict)
+	return render(request, 'add_item.html', context_dict)
 
 
 @login_required
@@ -140,7 +141,7 @@ def add_group(request):
 	else:
 		group_form = GroupForm()
 
-	return render(request, 'sharing/add_group.html', {'group_form': group_form,
+	return render(request, 'add_group.html', {'group_form': group_form,
 				 'group_added': group_added})
 
 @login_required
@@ -149,7 +150,7 @@ def inventory(request):
 	# Query for items.
 	item_list = Item.objects.filter(member__user=request.user)
 	context_dict = {'items': item_list,}
-	return render(request, 'sharing/inventory.html', context_dict)
+	return render(request, 'inventory.html', context_dict)
 
 
 @login_required
@@ -163,6 +164,8 @@ def member(request):
 	moderator = Moderator.objects.filter(member__user=request.user)
 	# list of join requests for a moderator
 	join_requests = JoinRequest.objects.filter(group__moderator=request.user)
+	# list of borrow requests for member
+
 	# all groups that a member belongs too
 	groups = Group.objects.filter(member_list__user=request.user)
 	# list of items for the group.
@@ -177,7 +180,7 @@ def member(request):
 
 	context_dict = {'items': item_list, 'moderator': moderator, 'requests': join_requests,
 			'groups': groups, 'group_members': group_members, 'group_items': group_items}
-	return render(request, 'sharing/member.html', context_dict)
+	return render(request, 'member.html', context_dict)
 
 
 @login_required
@@ -194,18 +197,18 @@ def join_requests(request):
 		else: 
 			requests_completed.append(req)
 
-	# Process form with def process(request, request_id).		
+	# Process form with def join_req_process(request, borrow_id).		
 	accept_request_form = AcceptRequestForm()
 
 	context_dict = {'join_request_list': join_request_list,
 			'accept_request_form': accept_request_form, 'requests_pending': requests_pending,
 			'requests_completed': requests_completed}
-	return render(request, 'sharing/join_requests.html', context_dict,)
+	return render(request, 'join_requests.html', context_dict,)
 
 
 @login_required
 # function to process a moderator's response to a request to join their Group.
-def process(request, request_id):
+def join_req_process(request, request_id):
 
 	if request.method == "POST":
 		# confirm request exists
@@ -222,7 +225,7 @@ def process(request, request_id):
 
 				# return HttpResponseRedirect('/sharing/join_requests/')
 				error = "Invalid: select either accept or reject"
-				return render(request, 'sharing/join_requests.html',
+				return render(request, 'join_requests.html',
 						{'error': error})
 
 			join_request.action_date =  datetime.now()
@@ -250,11 +253,38 @@ def delete_item (request, item_id):
 # View to list all the available sharing groups.
 def groups(request):
 	groups = Group.objects.all()
-	return render (request, 'sharing/groups.html', {'groups': groups})
+	return render (request, 'groups.html', {'groups': groups})
 
 
 # View to show the info for a specific group.
 def group_info (request, group_id):
 	group = get_object_or_404(Group, id=group_id)
-	return render (request, 'sharing/group_info.html', {'group': group,})
+	return render (request, 'group_info.html', {'group': group,})
 
+@login_required
+# View for member to see their list of people requesting to borrow an item.
+def borrow_requests (request):
+	borrow_request_list = BorrowRequest.objects.filter(item__member__user=request.user)
+	requests_pending = []
+	requests_completed = []
+
+	print "Borrow Req List ", borrow_request_list
+	# Determine which borrow requests are pending or completed.
+	for req in borrow_request_list:
+		if not req.action_date:
+			requests_pending.append(req)
+		else:
+			requests_completed.append(req)
+
+	# Process form with def borrow_req_process(request, borrow_id).
+	borrow_request_form = BorrowRequestForm()
+
+	context_dict = {'borrow_request_list': borrow_request_list,
+			'requests_pending': requests_pending, 'requests_completed': requests_completed,
+			'borrow_request_form': borrow_request_form}
+	return render(request, 'borrow_requests.html', context_dict)
+
+
+# function to process a member's response to borrow one of their items
+	def borrow_req_process(request, borrow_id):
+		pass

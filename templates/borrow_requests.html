@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %} Borrow Request {% endblock %}
+
+{% block body_block %}
+
+    {% if requests_pending %}
+       <h2>Pending borrow requests for {{ user }}</h2>
+        <ul>
+            {% for req in requests_pending %}
+            <li>{{ req.borrower }} wants to borrow your {{ req.item }}
+                <br>
+                Request date: {{ req.request_date|date }}
+                <!-- TO DO: Need to code view to process form.  -->
+                <form method="post" action="/sharing/borrow_requests/borrow_process/{{ req.id }}/">
+                {{ borrow_request_form }}
+                {% csrf_token %}
+                <input type="submit" name="submit" value="Submit"></input> <br><br>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    {% elif error %}
+        <strong> {{ error }} </strong>
+    {% else %}
+        <strong>You have no Pending Borrow Requests.</strong>
+    {% endif %}
+
+    {% if requests_completed %}
+       <h2> Completed borrow requests for {{ user }}</h2>
+        
+        <ul>
+            {% for req in requests_completed %}
+            <li>{{ req.borrower }} - 
+                {% if req.accept %} Accepted
+                {% else %} Rejected
+                {% endif %}
+                on {{ req.action_date|date }}
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endblock %}
+
+
+
+

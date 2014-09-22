@@ -1,5 +1,5 @@
 from django import forms
-from sharing.models import Member, Item, Group, JoinRequest
+from sharing.models import Member, Item, Group, JoinRequest, BorrowRequest
 from django.contrib.auth.models import User
 
 # Part 1 of 2 of the new member registration form.
@@ -40,7 +40,10 @@ class AcceptRequestForm(forms.ModelForm):
 		model = JoinRequest
 		fields = ('accept', 'reject')
 
+# Form for a member to accept or reject a request to borrow an item.
+class BorrowRequestForm(forms.ModelForm):
+	class Meta:
+		model = BorrowRequest
+		fields = ('accept_request', 'reject_request')
 
-# class BorrowItemForm(forms.ModelForm):
-# 	class Meta:
-# 		model = BorrowRequestForm
+	
