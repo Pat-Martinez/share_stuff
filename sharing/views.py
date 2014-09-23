@@ -12,7 +12,43 @@ from datetime import datetime
 
 def index(request):
 	groups = Group.objects.all()
-	return render(request, 'index.html', {'groups': groups, 'navbar': 'home'})
+	print groups
+	item_list = []
+	group_items = []
+	group_members = []
+	moderator = []
+	join_requests = []
+
+	if request.user.is_authenticated() and request.method == 'GET':
+		member = Member.objects.get(user=request.user)
+		print member
+
+		# list of a member's items
+		item_list = Item.objects.filter(member__user=request.user)
+		# is the member a moderator?
+		moderator = Moderator.objects.filter(member__user=request.user)
+		# list of join requests for a moderator
+		join_requests = JoinRequest.objects.filter(group__moderator=request.user)
+		# list of borrow requests for member
+
+		# all groups that a member belongs too
+		groups = Group.objects.filter(member_list__user=request.user)
+		# list of items for the group.
+		for group in groups:
+			# get members of this group
+			group_members = group.member_list.all()
+			# list of items for each member.
+			for member in group_members:
+				# get items for this member.
+				group_items.extend(Item.objects.filter(member=member))
+
+	else:
+		member = False
+
+	context_dict = {'member': member, 'groups': groups, 'navbar': 'home', 
+			'items': item_list, 'moderator': moderator, 'requests': join_requests,
+			'group_members': group_members, 'group_items': group_items}
+	return render(request, 'index.html', context_dict)
 
 
 def about(request):
@@ -64,7 +100,7 @@ def sign_in(request):
 		if member:
 			if member.is_active:
 				login(request, member)
-				return HttpResponseRedirect('/sharing/member/')
+				return HttpResponseRedirect('/sharing/')
 			else:
                 # An inactive account was used - no logging in!
 				return HttpResponse("Your sharing account is disabled.")
@@ -127,7 +163,13 @@ def add_group(request):
 		if group_form.is_valid():
 			# (commit= False) doesn't save data to database 
 			group = group_form.save(commit=False)
-			group.moderator = Moderator.objects.get_or_create(member=request.user.member)[0]
+			group.moderator = Moderator.objects.get_or_create(member= request.user.member)[0]
+			group.save()
+			group.member_list.add(request.user.member)
+
+			print "GROUP= ", group
+			print "MODERATOR= ", group.moderator
+	
 
 			if 'group_picture' in request.FILES:
 				group.photo = request.FILES['group_picture']

@@ -119,6 +119,7 @@ def add_moderator(member):
 def add_group(moderator, name, description):
     g = Group.objects.get_or_create(moderator=moderator, name=name,
                 description=description,)[0]
+    g.member_list.add(moderator.member)
     return g
 
 

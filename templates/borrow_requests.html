@@ -10,7 +10,6 @@
             <li>{{ req.borrower }} wants to borrow your {{ req.item }}
                 <br>
                 Request date: {{ req.request_date|date }}
-                <!-- TO DO: Need to code view to process form.  -->
                 <form method="post" action="/sharing/borrow_requests/process/{{ req.id }}/">
                 {{ borrow_request_form }}
                 {% csrf_token %}
@@ -34,7 +33,7 @@
                 {% if req.accept_request %} Accepted
                 {% else %} Rejected
                 {% endif %}
-                on {{ req.action_date|date }}
+                on {{ req.action_date|date }} <!-- |date gives date only rather than date & time. -->
             </li>
             {% endfor %}
         </ul>

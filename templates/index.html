@@ -3,11 +3,77 @@
 
 {% block body_block %}
 
+{% if member %}
+
+<div class="page-header">
+    {% if groups %}
+    {% for group in groups %}
+        <h1>Welcome {{ user.first_name }} <small>to the "{{ group.name }}" sharing group</small> </h1>
+    {% endfor %} <!-- end groups -->
+    {% else %}
+        <h1>Welcome {{ user.first_name }} <small>You haven't joined any sharing groups yet </small> </h1>
+    {% endif %} <!-- end groups -->
+</div>
+
+ <h3> Items for {{ user }} </h3>
+        {% if items %}
+<div class="row">
+    <div class='col-md-4'>
+        <ul class="list-group">
+            {% for item in items %}
+            <li class="list-group-item">{{ item.name }} &nbsp
+
+            <input type="submit" name="submit" value="Edit"></input>
+            </form>
+            </li>
+            {% endfor %}
+            </ul>  
+        {% else %}
+            <strong>You have no items.</strong> <br><br>
+        {% endif %}
+</div>
+    </div>
+
+    {% if moderator %}
+        Pending Requests: "   " <a href="/sharing/join_requests/"> View Requests to Join Group </a> 
+        <br>
+    {% endif %}
+
+    {% if groups %}
+        {% for group in groups %}
+            Group "{{ group.name }}" Moderator: {{ group.moderator }} <br>
+        {% endfor %}
+
+        {% for group in groups %}
+            <h3>{{ group.name }}  Members</h3>
+        
+        {% endfor %}
+
+        <ul>
+            {% for member in group_members %}
+                <li>{{ member.user.get_full_name }}</li>
+            {% endfor %}
+        </ul>
+
+        {% for group in groups %}
+        <h3>{{ group.name }}  Items</h3>
+          {% endfor %}
+        <ul>
+            {% for item in group_items %}
+            <li>{{ item.name }}</li>
+            {% endfor %}
+        </ul>            
+
+    {% endif %}
+{% else %}
+
 <div class='jumbotron'>
 	<h1>Welcome to Share Stuff!</h1>
 
 	<p>Need a cordless drill for that one-time or rare project and would rather borrow than buy one? Give Share Stuff a try. </p>
 	<p>List items (kitchen stuff, electronics, tools, outdoor gear, etc.) that you're willing to share with others, and find stuff to borrow.</p>
 </div>
+
+{% endif %}
 
 {% endblock %}
