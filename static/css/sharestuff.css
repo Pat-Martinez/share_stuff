@@ -85,3 +85,9 @@ body {
   -webkit-box-shadow: inset 0 3px 9px rgba(0, 0, 0, .25);
           box-shadow: inset 0 3px 9px rgba(0, 0, 0, .25);
 /*################ End ##################*/
+
+/*Tried to alter the text labels on form pages, such as Add Item.
+But the code below didn't do anything*/
+.jumbotron p {
+  font-size: 16;
+}

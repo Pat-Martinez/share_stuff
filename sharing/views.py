@@ -8,46 +8,13 @@ from sharing.models import Member, Group, Item, Moderator, JoinRequest, BorrowRe
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+from django.contrib import messages
 
 
 def index(request):
 	groups = Group.objects.all()
-	print groups
-	item_list = []
-	group_items = []
-	group_members = []
-	moderator = []
-	join_requests = []
 
-	if request.user.is_authenticated() and request.method == 'GET':
-		member = Member.objects.get(user=request.user)
-		print member
-
-		# list of a member's items
-		item_list = Item.objects.filter(member__user=request.user)
-		# is the member a moderator?
-		moderator = Moderator.objects.filter(member__user=request.user)
-		# list of join requests for a moderator
-		join_requests = JoinRequest.objects.filter(group__moderator=request.user)
-		# list of borrow requests for member
-
-		# all groups that a member belongs too
-		groups = Group.objects.filter(member_list__user=request.user)
-		# list of items for the group.
-		for group in groups:
-			# get members of this group
-			group_members = group.member_list.all()
-			# list of items for each member.
-			for member in group_members:
-				# get items for this member.
-				group_items.extend(Item.objects.filter(member=member))
-
-	else:
-		member = False
-
-	context_dict = {'member': member, 'groups': groups, 'navbar': 'home', 
-			'items': item_list, 'moderator': moderator, 'requests': join_requests,
-			'group_members': group_members, 'group_items': group_items}
+	context_dict = {'groups': groups, 'navbar': 'home'}
 	return render(request, 'index.html', context_dict)
 
 
@@ -77,6 +44,8 @@ def register(request):
 
 			member.save()
 			registered = True
+			messages.success(request, 'Thank you for registering!')
+			return HttpResponseRedirect('/sharing/sign_in')
 
 		else:
 			print user_form.errors, member_form.errors
@@ -100,7 +69,7 @@ def sign_in(request):
 		if member:
 			if member.is_active:
 				login(request, member)
-				return HttpResponseRedirect('/sharing/')
+				return HttpResponseRedirect('/sharing/member')
 			else:
                 # An inactive account was used - no logging in!
 				return HttpResponse("Your sharing account is disabled.")
@@ -120,8 +89,9 @@ def sign_out(request):
 @login_required
 # View for a member to add an item to share
 def add_item(request):
-
-	context_dict = {}
+	item_list = Item.objects.filter(member__user=request.user)
+	item_added = False
+	item = []
 
 	if request.method == "POST":
 		item_form = ItemForm(data=request.POST)
@@ -130,23 +100,22 @@ def add_item(request):
 			# (commit=False) doesn't save data to database
 			item = item_form.save(commit=False)
 			item.member = request.user.member
-		
-			# use item_name as boolean in template.
-			context_dict['item_name'] = item.name
 
 			if 'photo' in request.FILES:
 				item.photo = request.FILES['photo']
 
 			item.save() # saves form data to database.
-			return HttpResponseRedirect('/sharing/inventory/')
+			item_added = True
+			messages.success(request, 'Your "%s" was added successfully.' %(item))
+			return HttpResponseRedirect('/sharing/inventory/') 
 		else:
 			print item_form.errors
 
 	else:
 		item_form = ItemForm()
 
-	context_dict['item_form'] = item_form
-	context_dict['navbar'] = 'add_item'
+	context_dict = {'item_form': item_form, 'item': item, 'item_added': item_added,
+			'items': item_list, 'navbar':'add_item'}
 		
 	return render(request, 'add_item.html', context_dict)
 
@@ -155,6 +124,7 @@ def add_item(request):
 # View for a member to add a new sharing group.
 def add_group(request):
 	group_added = False
+	group = []
 
 	if request.method == "POST":
 		print request.POST
@@ -167,24 +137,20 @@ def add_group(request):
 			group.save()
 			group.member_list.add(request.user.member)
 
-			print "GROUP= ", group
-			print "MODERATOR= ", group.moderator
-	
-
 			if 'group_picture' in request.FILES:
 				group.photo = request.FILES['group_picture']
 
 			group.save() # saves form data to database.
 			group_added = True
-
+			messages.success(request, 'You successfully added the group "%s".' %(group))
+			return HttpResponseRedirect('/sharing/')
 		else:
 			print group_form.errors
-
 	else:
 		group_form = GroupForm()
 
 	return render(request, 'add_group.html', {'group_form': group_form,
-				 'group_added': group_added})
+				'group': group, 'group_added': group_added})
 
 @login_required
 # View to show a particular members inventory of items.
@@ -200,13 +166,20 @@ def inventory(request):
 def member(request):
 	group_items = []
 	group_members = []
+
 	# list of a member's items
 	item_list = Item.objects.filter(member__user=request.user)
+	
 	# is the member a moderator?
 	moderator = Moderator.objects.filter(member__user=request.user)
+
 	# list of join requests for a moderator
-	join_requests = JoinRequest.objects.filter(group__moderator=request.user)
+	join_requests = JoinRequest.objects.filter(group__moderator__member__user=request.user)
+	print "JOIN REQ=  ", join_requests
+
 	# list of borrow requests for member
+	borrow_requests = BorrowRequest.objects.filter(item__member__user=request.user)
+	print 'BORROW REQ= ', borrow_requests
 
 	# all groups that a member belongs too
 	groups = Group.objects.filter(member_list__user=request.user)
@@ -219,9 +192,9 @@ def member(request):
 			# get items for this member.
 			group_items.extend(Item.objects.filter(member=member))
 
-
-	context_dict = {'items': item_list, 'moderator': moderator, 'requests': join_requests,
-			'groups': groups, 'group_members': group_members, 'group_items': group_items}
+	context_dict = {'items': item_list, 'moderator': moderator, 'join_requests': join_requests,
+			'groups': groups, 'group_members': group_members, 'group_items': group_items,
+			'borrow_requests': borrow_requests}
 	return render(request, 'member.html', context_dict)
 
 
@@ -265,7 +238,7 @@ def join_req_process(request, request_id):
 
 			# Check for valid choices.
 			if (form.accept and form.reject) or (not form.accept and not form.reject):
-
+				messages.error (request, 'Invalid: select either accept or reject') 
 				# return HttpResponseRedirect('/sharing/join_requests/')
 				error = "Invalid: select either accept or reject"
 				return render(request, 'join_requests.html',

@@ -2,25 +2,27 @@
 {% block title %} Your Inventory {% endblock %}
 	
 {% block body_block %}
-		<h1>Your Inventory {{ user }}</h1>
-		{% if items %}
-			<ul>
-				{% for item in items %}
-            <li>{{ item.name }}: {{ item.description }}<br>
-                <img src="/media/{{ item.photo }}"/>
 
-                <input type='button' onClick='parent.location= "/sharing/inventory/delete_item/{{ item.id }}/"' 
-                	value="Delete"> <br><br>
-            </li>
+<h1>Your Inventory</h1>
 
-				{% endfor %}
-			</ul>	
-		{% else %}
-			<strong>You have no items.</strong>
-		{% endif %}
-		
-		<br>
+{% if items %}
+  <ul>
+		{% for item in items %}
+    <li>{{ item.name }}: {{ item.description }}<br>
+      <img src="/media/{{ item.photo }}"/>
+
+      <button class="btn btn-xs btn-primary" type="button" onClick='parent.location= "/sharing/inventory/delete_item/{{ item.id }}/"' 
+              value="Delete">Delete</button>
+    </li>
+		{% endfor %}
+	</ul>
+
+{% else %}
+	<strong>You have no items.</strong>
+{% endif %}
+  <br>
 
 {% endblock%}
 
-<button type="button">Click Me!</button> 
+ <input type='button' onClick='parent.location= "/sharing/inventory/delete_item/{{ item.id }}/"' 
+    value="Delete"> <br><br>

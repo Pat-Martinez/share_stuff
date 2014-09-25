@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
 {% block title %} Join Requests {% endblock %}
 
+<!-- ### Insert "error" message from view & base.html ### -->
+
 {% block body_block %}
 
      {% if requests_pending %}
        <h2>Pending join requests for {{ user }}</h2>
         <ul>
             {% for req in requests_pending %}
-            <li>{{ req.requestor }}
+            <li>{{ req.requestor }} wants to join your group.
+            <br> Request Date: {{ req.request_date|date}}
                 <form method="post" action="/sharing/join_requests/process/{{ req.id }}/">
                 {{ accept_request_form }}
                 {% csrf_token %}

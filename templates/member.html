@@ -2,55 +2,100 @@
 {% block title %} Member Page {% endblock %}
 
 {% block body_block %}
-    <h3> Items for {{ user }} </h3>
-        {% if items %}
-            <ul>
-                {% for item in items %}
-                <li>{{ item.name }}
-               
-                <form method="post" action="/sharing/join_requests/process/{{req.id}}/">
-                {{ accept_request_form }}
-                {% csrf_token %}
-                <input type="submit" name="submit" value="Submit"></input> <br><br>
-                </form>
 
-                </li>
-                {% endfor %}
-            </ul>  
+<div class="page-header">
+    {% if groups %}
+    {% for group in groups %}
+        <h1>Welcome {{ user.first_name }} <small>to the "{{ group.name }}" sharing group</small> </h1>
+    {% endfor %} <!-- end groups -->
+    {% else %}
+        <h1>Welcome {{ user.first_name }} <small>You haven't joined any sharing groups yet </small> </h1>
+    {% endif %} <!-- end groups -->
+</div>
+
+<!-- ############# List of member's items ################ -->
+ <h3> Your Items Available to Share </h3>
+{% if items %}
+<div class="row">
+  <div class='col-md-4'>
+      <ul class="list-group">   
+          {% for item in items %}
+          <li class="list-group-item" style='min-height: 40px' >
+              <div > {# row #}
+                  <div  style= 'float: left'>
+                      {{ item.name }} &nbsp
+                  </div>
+                  <div style= 'float: right'>
+                      <button class="btn btn-xs btn-primary" type="submit">Edit</button>
+                  </div>
+              </div> {# end row #}
+          </li>
+          {% endfor %}
+      </ul>  
+      {% else %}
+          <strong>You have no items.</strong><br><br>
+      {% endif %}
+</div>
+    </div>
+<!-- ########################################### -->
+
+<!-- ######## Show Join Requests if moderator & they have requests ######### -->
+{% if join_requests %}
+    <h4>You have <font color="red"><strong>"{{ join_requests|length }}"</strong></font> request(s) to join your group. <small><a href="/sharing/join_requests/">View Requests</a></small></h4>
+    <br>
+{% endif %}
+<!-- ########################################## -->
+
+<!-- ################### Show Borrow Requests ######################## -->
+{% if borrow_requests %}
+    <h4>You have <font color="red"><strong>"{{ borrow_requests|length }}"</strong></font> request(s) to borrow an item. <small><a href="/sharing/borrow_requests/">View Requests</a></small></h4>
+    <br>
+{% endif %}
+<!-- ############################################## -->
+
+<!-- ############## List of Group's Members ############### -->
+{% if groups %} <!-- 45 -->
+    {% for group in groups %} <!-- 46 -->
+        <h3>{{ group.name }}  Members</h3>
+    <ul>
+        {% for member in group_members %}
+        {% if member == group.moderator.member %}
+            <li>{{ group.moderator.member.user.get_full_name }} (Group Moderator)</li>
         {% else %}
-            <strong>You have no items.</strong> <br><br>
+            <li>{{ member.user.get_full_name }}</li>
         {% endif %}
+        {% endfor %}
+{% comment %}
+        {% for member in group_members %}
+    {% if not moderator %}
+            <li>{{ member.user.get_full_name }}</li>
+         {% endif %}
+        {% endfor %}
+{% endcomment %}
+    </ul>
 
-        {% if moderator %}
-        Pending Requests: "   " <a href="/sharing/join_requests/"> View Requests to Join Group </a> 
-        <br>
-        {% endif %}
+    {% endfor %} <!-- endfor 46 -->
+{% endif %} <!-- endif 45 -->
+<!-- ################################# -->
 
-        {% if groups %}
-            {% for group in groups %}
-            Group: {{ group.name }} <br>
-            Moderator: {{ group.moderator }} <br>
+<!-- ############ List of Group Items available to borrow ########## -->
+    {% for group in groups %}
+        <h3>{{ group.name }} Items Available to Borrow</h3>
+    {% endfor %}
+
+<div class="row">
+    <div class='col-md-4'>
+        <ul class="list-group">
+            {% if group_items %}
+            {% for item in group_items %}
+                <li class=list-group-item>{{ item.name }}</li>
             {% endfor %}
-        {% for group in groups %}
-            <h3>{{ group.name }}  Members</h3>
-                 {% endfor %}
-            <ul>
-                {% for member in group_members %}
-                <li>{{ member.user.get_full_name }}</li>
-                {% endfor %}
-            </ul>
-
-            {% for group in groups %}
-            <h3>{{ group.name }}  Items</h3>
-              {% endfor %}
-            <ul>
-                {% for item in group_items %}
-                <li>{{ item.name }}</li>
-                {% endfor %}
-            </ul>            
-
-        {% endif %}
+        </ul>
+            {% else %}
+                <strong>There are currently no items to borrow</strong>        
+            {% endif %}
+</div>
+    </div>
+<!-- ############################################ -->
 
 {% endblock %}
-
-

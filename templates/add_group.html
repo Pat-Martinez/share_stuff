@@ -1,31 +1,30 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block title %} Add Group {% endblock %}
 
-<html>
+<!-- ### Insert "success" message from view & base.html ### -->
 
-	<head>
-		<title>Share Stuff - Add Group</title>
-	</head>
+{% block body_block %}
+
+{% if group_added %}
+    <div class="alert alert-success" role="alert">Your group "{{ group }}" was added successfully.
+    </div>
+
+{% else %}
 	
-	<body>
-		<br>
-		<a href="/sharing/">Home Page</a>
-		<br>
-		{% if group_added %}
-		<strong>Group added successfully. <br>
-		{% else %}
-			<br>
+	<div class='jumbotron'>
+	    <div class="container">
 			<h1>Create a Group</h1>
-			<form id="group_form" method="post" action="/sharing/add_group/"
+			<br>
+			<form class= "form-horizontal" id="group_form" method="post" action="/sharing/add_group/"
 				enctype="multipart/form-data" >
 
 				{% csrf_token %}
-            	{{ group_form.as_p}}
+				{{ group_form.as_p}}
 
-            	<!-- Provide a button to click to submit the form. -->
-            	<input type="submit" name="submit" value="Create Group"/>
+				<button class="btn btn-md btn-primary" type="submit">Create Group</button>
 			</form>
-		{% endif %}
+	</div>
+	    </div>
 		
-
-	</body>
-</html>
+{% endif %}
+{% endblock %}
