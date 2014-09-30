@@ -3,13 +3,15 @@
 
 {% block body_block %}
 
-<div class="page-header">
+<div class="jumbotron jumbotron-small">
     {% if groups %}
     {% for group in groups %}
-        <h1>Welcome {{ user.first_name }} <small>to the "{{ group.name }}" sharing group</small> </h1>
+        <h2>Welcome {{ user.first_name }} <small>to the "{{ group.name }}" sharing group</small> </h2>
     {% endfor %} <!-- end groups -->
     {% else %}
-        <h1>Welcome {{ user.first_name }} <small>You haven't joined any sharing groups yet </small> </h1>
+        <h1>Welcome {{ user.first_name }} <small>You haven't joined any sharing groups yet.</small> </h1>
+        <h4>Would you like to join a group? <small><a href="/sharing/groups/">See list of groups.</a></small></h4>
+        <h4>Would you like to create your own group? <small><a href="/sharing/add_group">Create a group.</a></small></h4>  
     {% endif %} <!-- end groups -->
 </div>
 
@@ -17,38 +19,39 @@
  <h3> Your Items Available to Share </h3>
 {% if items %}
 <div class="row">
-  <div class='col-md-4'>
+  <div class='col-md-8'>
       <ul class="list-group">   
           {% for item in items %}
-          <li class="list-group-item" style='min-height: 40px' >
+          <li class="list-group-item" style='min-height: 40px'>
               <div > {# row #}
-                  <div  style= 'float: left'>
+                  <div style= 'float: left'>
                       {{ item.name }} &nbsp
                   </div>
                   <div style= 'float: right'>
-                      <button class="btn btn-xs btn-primary" type="submit">Edit</button>
+                      <a class="btn btn-xs btn-primary" href="/sharing/inventory/item_info/{{ item.id }}/">Edit</a>
                   </div>
               </div> {# end row #}
           </li>
           {% endfor %}
       </ul>  
       {% else %}
-          <strong>You have no items.</strong><br><br>
+          <strong>You currently have no items.</strong> <a href="/sharing/add_item"> Add an item.</a><br><br>
+
       {% endif %}
 </div>
     </div>
 <!-- ########################################### -->
 
 <!-- ######## Show Join Requests if moderator & they have requests ######### -->
-{% if join_requests %}
-    <h4>You have <font color="red"><strong>"{{ join_requests|length }}"</strong></font> request(s) to join your group. <small><a href="/sharing/join_requests/">View Requests</a></small></h4>
+{% if join_requests_pending %}
+    <h4>You have <font color="red"><strong>"{{ join_requests_pending|length }}"</strong></font> request(s) to join your group. <small><a href="/sharing/join_requests/">View Requests</a></small></h4>
     <br>
 {% endif %}
 <!-- ########################################## -->
 
-<!-- ################### Show Borrow Requests ######################## -->
-{% if borrow_requests %}
-    <h4>You have <font color="red"><strong>"{{ borrow_requests|length }}"</strong></font> request(s) to borrow an item. <small><a href="/sharing/borrow_requests/">View Requests</a></small></h4>
+<!-- ################### Show Borrow Requests if they have requests ######################## -->
+{% if borrow_requests_pending %}
+    <h4>You have <font color="red"><strong>"{{ borrow_requests_pending|length }}"</strong></font> request(s) to borrow an item. <small><a href="/sharing/borrow_requests/">View Requests</a></small></h4>
     <br>
 {% endif %}
 <!-- ############################################## -->
@@ -82,17 +85,29 @@
     {% for group in groups %}
         <h3>{{ group.name }} Items Available to Borrow</h3>
     {% endfor %}
-
+<div class=note>
+<p>NOTE: Currently borrow function doesn't work.</p>
+</div>
 <div class="row">
-    <div class='col-md-4'>
+    <div class='col-md-8'>
         <ul class="list-group">
             {% if group_items %}
-            {% for item in group_items %}
-                <li class=list-group-item>{{ item.name }}</li>
+            {% for item in items_to_borrow %}
+                <li class="list-group-item" style='min-height: 40px'>
+                  <form method="post" action="/sharing/borrow_requests/process/{{ req.id }}/"> <!-- ************* -->
+
+                  <div style= 'float: left'>
+                    {{ item.name }}
+                  </div>
+                  <div style= 'float: right'>
+                      <button class="btn btn-xs btn-primary" type="button"  SOME SORT OF ACTION>Borrow</a> <!-- ************ -->
+                  </div>
+                </li>  
             {% endfor %}
         </ul>
             {% else %}
-                <strong>There are currently no items to borrow</strong>        
+                <h3>Items Available to Borrow</h3>
+                <strong>There are currently no items to borrow.</strong>        
             {% endif %}
 </div>
     </div>

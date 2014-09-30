@@ -5,18 +5,19 @@
 	{% if registered %}
 		<div class="alert alert-success" role="alert">Thank you for registering!</div>
 	{% else %}	
-		<div class='jumbotron'>
-			<div class="container">
-					<h1>Register with Share Stuff</h1>
-					<br>
-		 	  		<form class="form-horizontal"  id="user_form" method="post" action="/sharing/register/" enctype="multipart/form-data" role="form">
-				        {% csrf_token %}
-				        {{ user_form.as_p }}	
-				        {{ member_form.as_p }}
-				        <button class="btn btn-lg btn-primary" type="submit">Register</button>
-			      	</form>
-			    {% endif %}
-			</div>
-		</div> <!-- /jumbotron --> 
+		
+	<div class='jumbotron jumbotron-small'>
+		<h1>Register <small>with Share Stuff</small></h1>
+	</div>
+
+	<div class='jumbotron'>
+		<form class="form-horizontal" id="user_form" method="post" action="/sharing/register/" enctype="multipart/form-data" role="form">
+      {% csrf_token %}
+      {{ user_form.as_p }}	
+      {{ member_form.as_p }}
+    	<button class="btn btn-lg btn-primary" type="submit">Register</button>
+  	</form>
+	{% endif %}
+	</div>
 
 {% endblock %}

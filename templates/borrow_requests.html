@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 {% block title %} Borrow Request {% endblock %}
 
+<!-- ### see borrow_requests_process view and base.html for "error" messages  ### -->
+
 {% block body_block %}
 
     {% if requests_pending %}
-       <h2>Pending borrow requests for {{ user }}</h2>
+      <div class= "jumbotron jumbotron-small">
+        <h2>Pending borrow requests</h2>
+    </div>
         <ul>
             {% for req in requests_pending %}
             <li>{{ req.borrower }} wants to borrow your {{ req.item }}
@@ -18,14 +22,14 @@
             </li>
             {% endfor %}
         </ul>
-    {% elif error %}
-        <strong> {{ error }} </strong>
     {% else %}
         <strong>You have no Pending Borrow Requests.</strong>
     {% endif %}
 
     {% if requests_completed %}
-       <h2> Completed borrow requests for {{ user }}</h2>
+      <div class= "jumbotron jumbotron-small">
+        <h2>Completed borrow requests</h2>
+      </div>
         
         <ul>
             {% for req in requests_completed %}

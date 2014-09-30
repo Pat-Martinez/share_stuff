@@ -1,24 +1,24 @@
 {% extends 'base.html' %}
-{% block title %} Group Info Page {% endblock %}
+{% block title %} Group Info {% endblock %}
 
 {% block body_block %}
 
-{% if group %}
-    <h2>{{ group.name }} </h2>
-    Description: {{ group.description }}
-    <br>
-    Moderator: {{ group.moderator }}
-    <br><br>
-    Group Picture:
-    <br>
-    <img src="media/{{ group.group_picture }}">
-    <br><br>
-    Interested in joining this Group? Typically you must know a group member to join.
-    However, even if you don't know a member, you can still submit a join request. In this case, the 
-    moderator will usually request to meet with you first before accepting you as a group member.
-    <br><br>
-    <a href= "/sharing/join_request">Click here</a> to request to join this group.   
-{% endif %}
+  <div class='jumbotron'>
+    {% if group %}
+        <h2>{{ group.name }} </h2>
+        <p>Description: {{ group.description }} {% if group.group_picture %} <img src="media/{{ group.group_picture }}" alt="Group Picture" style="float: right; padding: 10px 0px 10px 10px; height: 200px;"></p>
+        {% endif %}
+        
+        <p>Moderator: {{ group.moderator }}</p>
+        
+        <p>Interested in joining this Group? Typically you must know a group member to join.
+        However, even if you don't know a member, you can still submit a join request. In this case, the 
+        moderator will usually request to meet with you first before accepting you as a group member.</p>
+    
+        <p>Request to <a href= "/sharing/join_request">join this group.</a></p>   
+    {% endif %}
+
+  </div>
 
 {% endblock %}
 

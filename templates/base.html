@@ -49,39 +49,31 @@
     </div>
 <!-- ######################### END 1st ############################ -->
 
-<!-- ########## Messages ########################## -->
+<!-- ########## Messages (Success, Error, etc.) ################## -->
 <div class="container theme-showcase" role="main">
   <div class="row">
     <div class="col-md-12">
-       {% if messages %}
           <ul class="messages">
               {% for message in messages %}
+              
+              {% if 'success' in message.tags %} 
               <div class="alert alert-success" role="alert">
                 {{ message }}
               </div>
-              {% endfor %}
+              {% endif %}
+              
+              {% if 'error' in message.tags %} 
+              <div class="alert alert-danger" role="alert">
+                {{ message }}
+              </div>
+              {% endif %} 
+
+              {% endfor %} 
           </ul>
-        {% endif %}
    </div>
   </div>
 <!-- ########################################## -->
 
-<!-- *** TO DO: figure out how to format different message. -->
-{% comment %}
-        {% elif messages.error %}
-          <ul class="messages">
-              {% for message in messages %}
-              {% if message.tags %} 
-              <div class="alert alert-danger" role="alert">
-                {{ message }}
-              </div>
-               {% endif %}
-              {% endfor %}
-          </ul>
-        {% endif %}
-  </div>
-</div>
-{% endcomment %}
 <!-- ##################### 2nd Bootstrap addition ####################### -->
       <div class="row">
         <div class="col-md-12">
@@ -91,6 +83,7 @@
         </div>
       </div>
     </div> <!-- /container -->
+
 <!-- ######################### END 2nd ################################## -->
 <hr>
     <!-- Bootstrap core JavaScript

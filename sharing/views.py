@@ -3,7 +3,7 @@ from django.template import RequestContext
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from sharing.forms import UserForm, MemberForm, ItemForm, GroupForm, AcceptRequestForm
-from sharing.forms import BorrowRequestForm
+from sharing.forms import BorrowRequestForm  # BorrowForm
 from sharing.models import Member, Group, Item, Moderator, JoinRequest, BorrowRequest
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -44,7 +44,8 @@ def register(request):
 
 			member.save()
 			registered = True
-			messages.success(request, 'Thank you for registering!')
+			messages.sucess(request, 'Thank you for registering!')
+
 			return HttpResponseRedirect('/sharing/sign_in')
 
 		else:
@@ -59,6 +60,8 @@ def register(request):
 
 
 def sign_in(request):
+	user= request.user
+
 	if request.method == "POST":
 		username = request.POST['username']
 		password = request.POST['password']
@@ -74,11 +77,12 @@ def sign_in(request):
                 # An inactive account was used - no logging in!
 				return HttpResponse("Your sharing account is disabled.")
 		else:
-        # Bad login details were provided. So we can't log the user in.
+			# Bad login details were provided.
+			messages.error(request, "Invalid Username or Password")
 			print "Invalid login details: {0}, {1}".format(username, password)
-			return render(request, 'sign_in.html', {'invalid': "Invalid username or password"})
+			return render(request, 'sign_in.html',)
 	else:
-		return render(request, 'sign_in.html', {'navbar': 'sign_in'})
+		return render(request, 'sign_in.html', {'navbar': 'sign_in', 'user': user})
 
 
 def sign_out(request):
@@ -118,6 +122,12 @@ def add_item(request):
 			'items': item_list, 'navbar':'add_item'}
 		
 	return render(request, 'add_item.html', context_dict)
+
+@login_required
+# View to show the info for a specific item.
+def item_info (request, item_id):
+	item = get_object_or_404(Item, id=item_id)
+	return render (request, 'item_info.html', {'item': item,})
 
 
 @login_required
@@ -166,6 +176,9 @@ def inventory(request):
 def member(request):
 	group_items = []
 	group_members = []
+	join_requests_pending = []
+	borrow_requests_pending = []
+	items_to_borrow = []
 
 	# list of a member's items
 	item_list = Item.objects.filter(member__user=request.user)
@@ -175,26 +188,40 @@ def member(request):
 
 	# list of join requests for a moderator
 	join_requests = JoinRequest.objects.filter(group__moderator__member__user=request.user)
-	print "JOIN REQ=  ", join_requests
+	# Determine which join requests are pending.
+	for req in join_requests:
+		if not req.action_date: # indicates moderator hasn't accepted or rejected join request
+			join_requests_pending.append(req)
 
 	# list of borrow requests for member
 	borrow_requests = BorrowRequest.objects.filter(item__member__user=request.user)
-	print 'BORROW REQ= ', borrow_requests
+	# Determine which borrow requests are pending.
+	for req in borrow_requests: # indicates member hasn't accepted or rejected borrow request
+		if not req.action_date:
+			borrow_requests_pending.append(req)
 
 	# all groups that a member belongs too
 	groups = Group.objects.filter(member_list__user=request.user)
+	
 	# list of items for the group.
 	for group in groups:
 		# get members of this group
 		group_members = group.member_list.all()
+		
 		# list of items for each member.
 		for member in group_members:
 			# get items for this member.
 			group_items.extend(Item.objects.filter(member=member))
 
+	#list of items available for a member to borrow.
+	for item in group_items:
+		if item.member.user != request.user:
+			items_to_borrow.append(item)
+
 	context_dict = {'items': item_list, 'moderator': moderator, 'join_requests': join_requests,
 			'groups': groups, 'group_members': group_members, 'group_items': group_items,
-			'borrow_requests': borrow_requests}
+			'borrow_requests': borrow_requests, 'borrow_requests_pending': borrow_requests_pending,
+			'join_requests_pending': join_requests_pending, "items_to_borrow": items_to_borrow}
 	return render(request, 'member.html', context_dict)
 
 
@@ -238,11 +265,8 @@ def join_req_process(request, request_id):
 
 			# Check for valid choices.
 			if (form.accept and form.reject) or (not form.accept and not form.reject):
-				messages.error (request, 'Invalid: select either accept or reject') 
-				# return HttpResponseRedirect('/sharing/join_requests/')
-				error = "Invalid: select either accept or reject"
-				return render(request, 'join_requests.html',
-						{'error': error})
+				messages.error (request, 'Invalid: select either Accept or Reject') 
+				return HttpResponseRedirect('/sharing/join_requests/')
 
 			join_request.action_date =  datetime.now()
 			join_request.accept = form.accept
@@ -279,7 +303,7 @@ def group_info (request, group_id):
 
 @login_required
 # View for member to see their list of people requesting to borrow an item.
-def borrow_requests (request):
+def borrow_requests (request): # TO DO: rename to borrow_reply
 	borrow_request_list = BorrowRequest.objects.filter(item__member__user=request.user)
 	requests_pending = []
 	requests_completed = []
@@ -289,6 +313,7 @@ def borrow_requests (request):
 	for req in borrow_request_list:
 		if not req.action_date:
 			requests_pending.append(req)
+			print "REQ PENDING= ", requests_pending
 		else:
 			requests_completed.append(req)
 
@@ -303,7 +328,7 @@ def borrow_requests (request):
 
 @login_required
 # function to process a member's response to borrow one of their items
-def borrow_req_process(request, borrow_id):
+def borrow_req_process(request, borrow_id): # TO DO: rename to borrow_reply_process
 	# confirm request exists
 	if request.method == "POST":
 		borrow_request = get_object_or_404(BorrowRequest,
@@ -317,8 +342,8 @@ def borrow_req_process(request, borrow_id):
 			# Check for valid choices.
 			if ((form.accept_request and form.reject_request) or 
 			(not form.accept_request and not form.reject_request)):
-				error = "Invalid: select either accept or reject"
-				return render(request, 'borrow_requests.html', {'error': error})
+				messages.error (request, 'Invalid: select either Accept or Reject') 
+				return HttpResponseRedirect('/sharing/borrow_requests/')
 
 			borrow_request.action_date = datetime.now()
 			borrow_request.accept_request = form.accept_request
@@ -329,6 +354,23 @@ def borrow_req_process(request, borrow_id):
 	else:
 		print "process: GET request ignored"
 	return HttpResponseRedirect('/sharing/borrow_requests/')
+
+
+@login_required
+# View for member to see a list of items that they've requested to borrow.
+def borrow_req_borrower (request): # TO DO: rename to borrow_requests
+	borrow_request_list = BorrowRequest.objects.filter(item__member__user=request.user)
+
+
+
+@login_required
+# function to process a member's request to borrow an item.
+def borrow_req_borrower_process (request, borrow_id): # TO DO: rename to borrow_process
+	if request.method == "POST":
+		borrow_request = get_object_or_404(BorrowRequest,
+				item__member__user=request.user, id=borrow_id)
+		borrow_request_form = BorrowRequestForm(data=request.POST)
+		print "borrow_request= ", borrow_request
 
 
 

@@ -3,15 +3,20 @@
 
 {% block body_block %}
 
-<div class="container">
-      <form class="form-signin"  id="Signin_form" method="post" action="/sharing/sign_in/"role="form">
-        {% csrf_token %}
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="text" class="form-control" placeholder="Username" name= 'username' required autofocus>
-        
-        <input type="password" class="form-control" placeholder="Password" name= 'password' required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
-      </form>
-</div> <!-- /container -->
+{% if user.is_authenticated %}
+  <h2>You're already signed in.</h2>
+
+{% else %}
+  <div class="container">
+        <form class="form-signin"  id="Signin_form" method="post" action="/sharing/sign_in/"role="form">
+          {% csrf_token %}
+          <h2 class="form-signin-heading">Please sign in</h2>
+          <input type="text" class="form-control" placeholder="Username" name= 'username' required autofocus>
+          
+          <input type="password" class="form-control" placeholder="Password" name= 'password' required>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+        </form>
+  </div> <!-- /container -->
+{% endif %}
 
 {% endblock %}

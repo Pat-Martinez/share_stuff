@@ -1,16 +1,18 @@
 {% extends 'base.html' %}
 {% block title %} Join Requests {% endblock %}
 
-<!-- ### Insert "error" message from view & base.html ### -->
+<!-- ### see join_requests_process view and base.html for "error" messages  ### -->
 
 {% block body_block %}
 
      {% if requests_pending %}
-       <h2>Pending join requests for {{ user }}</h2>
+       <div class= "jumbotron jumbotron-small">
+       <h2>Pending join requests</h2>
+       </div>
         <ul>
             {% for req in requests_pending %}
             <li>{{ req.requestor }} wants to join your group.
-            <br> Request Date: {{ req.request_date|date}}
+            <br> Request Date: {{ req.request_date|date }}
                 <form method="post" action="/sharing/join_requests/process/{{ req.id }}/">
                 {{ accept_request_form }}
                 {% csrf_token %}
@@ -19,15 +21,14 @@
             </li>
             {% endfor %}
         </ul>
-    {% elif error %}
-        <strong> {{ error }} </strong>
     {% else %}
         <strong>You have no Pending Join Requests.</strong>
     {% endif %}
 
     {% if requests_completed %}
-       <h2> Completed join requests for {{ user }}</h2>
-        
+       <div class= "jumbotron jumbotron-small">
+       <h2>Completed join requests</h2>
+        </div>
         <ul>
             {% for req in requests_completed %}
             <li>{{ req.requestor }} - 

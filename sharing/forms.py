@@ -24,6 +24,9 @@ class MemberForm(forms.ModelForm):
 class ItemForm(forms.ModelForm):
 	class Meta:
 		model = Item
+		widgets = {'description': forms.Textarea(attrs={'rows':8, 'cols':22}),
+		}
+
 		fields = ('name', 'category', 'description', 'photo')
 
 
@@ -41,9 +44,17 @@ class AcceptRequestForm(forms.ModelForm):
 		fields = ('accept', 'reject')
 
 # Form for a member to accept or reject a request to borrow an item.
-class BorrowRequestForm(forms.ModelForm):
+class BorrowRequestForm(forms.ModelForm): #TO DO: rename to BorrowReplyForm
 	class Meta:
 		model = BorrowRequest
 		fields = ('accept_request', 'reject_request')
+
+# Form for a member to request to borrow an item.
+# class BorrowForm(forms.ModelForm): 
+# 	class Meta:
+# 		model = BorrowRequest
+# 		fields = ('request_date')
+
+
 
 	
