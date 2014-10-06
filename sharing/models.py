@@ -6,10 +6,11 @@ class Member(models.Model):
 	user = models.OneToOneField(User)
 	profile_picture = models.ImageField(upload_to='profile_images', blank=True)
 	zip_code = models.CharField(max_length=5)
+	comment = models.CharField(max_length=60) # used for sample members.
 
 	def __unicode__(self):
-		return "%s %s (%s)" %(self.user.first_name, self.user.last_name,
-			self.user.username)
+		return "(%s) %s %s" %(self.user.username, self.user.first_name,
+				self.user.last_name)
 
 	class Meta:
 		verbose_name_plural = "Members"
@@ -19,8 +20,8 @@ class Moderator(models.Model):
 	member = models.ForeignKey(Member, related_name = 'moderator')
 
 	def __unicode__(self):
-		return "%s %s (%s)" %(self.member.user.first_name, self.member.user.last_name,
-			self.member.user.username)
+		return "(%s) %s %s" %(self.member.user.username, self.member.user.first_name,
+				self.member.user.last_name)
 
 	class Meta:
 		verbose_name_plural = "Moderators"
@@ -44,7 +45,7 @@ class Item(models.Model):
 	# loaned = ????
 
 	def __unicode__(self):
-		return self.name
+		return '%s (%s)' %(self.name, self.member.user.username)
 
 	class Meta:
 		verbose_name_plural = "Items"
@@ -60,7 +61,7 @@ class Group(models.Model):
 
 
 	def __unicode__(self):
-		return self.name
+		return '%s (%s)' %(self.name, self.moderator)
 
 	class Meta:
 		verbose_name_plural = "Groups"
@@ -75,7 +76,7 @@ class JoinRequest(models.Model):
 	action_date = models.DateTimeField(null=True, blank=True)
 
 	def __unicode__(self):
-		return "Member: %s --- Moderator: %s" %(self.requestor.user, self.group.moderator)
+		return "Requestor: %s -- Moderator: %s" %(self.requestor.user, self.group.moderator)
 
 	class Meta:
 		verbose_name_plural = "Join Requests"

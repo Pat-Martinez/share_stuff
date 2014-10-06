@@ -6,15 +6,15 @@
 {% block body_block %}
 
 {% if group_added %}
-    <div class="alert alert-success" role="alert">Your group "{{ group }}" was added successfully.
-    </div>
+	<div class="alert alert-success" role="alert">Your group "{{ group.name }}" was added successfully.
+	</div>
 
 {% else %}
+	<div class='jumbotron jumbotron-small'>
+		<h1>Create a Group</h1>
+	</div>
 	
 	<div class='jumbotron'>
-	    <div class="container">
-			<h1>Create a Group</h1>
-			<br>
 			<form class= "form-horizontal" id="group_form" method="post" action="/sharing/add_group/"
 				enctype="multipart/form-data" >
 
@@ -24,7 +24,6 @@
 				<button class="btn btn-md btn-primary" type="submit">Create Group</button>
 			</form>
 	</div>
-	    </div>
 		
 {% endif %}
 {% endblock %}

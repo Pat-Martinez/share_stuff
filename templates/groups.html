@@ -2,10 +2,22 @@
 {% block title %} Groups Page {% endblock %}
 
 {% block body_block %}
+  <div class= 'jumbotron jumbotron-small'>
     <h2>Available Sharing Groups</h2>
-    {% for group in groups %}
-    <li> <a href="group_info/{{ group.id }}">{{ group.name }}</a> </li>
-    {% endfor %}
-{% endblock %}
+  </div>  
 
+<div class="row">
+  <div class='col-md-8'>
+    <ul class="list-group">
+      {% if groups %}
+      {% for group in groups %}
+      <li class="list-group-item" style='min-height: 40px'>
+        <a href="group_info/{{ group.id }}">{{ group.name }}</a> 
+      </li>
+      {% endfor %}
+      {% endif %}
+    </ul>
+  </div>
+</div> 
 
+{% endblock %}      

@@ -5,8 +5,7 @@ from django.contrib.auth.models import User
 # Part 1 of 2 of the new member registration form.
 class UserForm(forms.ModelForm):
 	password = forms.CharField(widget=forms.PasswordInput())
-	username = forms.CharField(widget=forms.TextInput(attrs=
-			{'placeholder': '3 or more characters, no spaces'}))
+	username = forms.CharField(widget=forms.TextInput())
 
 	class Meta:
 		model = User

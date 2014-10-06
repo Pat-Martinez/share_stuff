@@ -12,6 +12,7 @@ from django.contrib import messages
 
 
 def index(request):
+	all_members = []
 	item_list = []
 	moderator = []
 	groups = []
@@ -22,6 +23,7 @@ def index(request):
 	borrow_requests = []
 	borrow_requests_pending = []
 	items_to_borrow = []
+	all_members = Member.objects.all()
 
 	if request.user.is_authenticated() and request.method == 'GET':
 		member = Member.objects.get(user=request.user)
@@ -70,13 +72,18 @@ def index(request):
 			'groups': groups, 'group_members': group_members, 'group_items': group_items,
 			'borrow_requests': borrow_requests, 'borrow_requests_pending':
 			borrow_requests_pending, 'join_requests_pending': join_requests_pending,
-			"items_to_borrow": items_to_borrow}
+			"items_to_borrow": items_to_borrow, 'all_members': all_members,}
 
 	return render(request, 'index.html', context_dict)
 
 
 def about(request):
-    return render(request, 'about.html', {'navbar': 'about'})
+   	# list of sample member accounts
+	sample_members = Member.objects.filter(user__username__startswith = 'sample_')
+	print sample_members
+	context_dict = {'navbar': 'about', 'sample_members': sample_members}
+
+	return render(request, 'about.html', context_dict)
 
 
 # View for someone to register as a member.
@@ -167,7 +174,7 @@ def add_item(request):
 
 			item.save() # saves form data to database.
 			item_added = True
-			messages.success(request, 'Your "%s" was added successfully.' %(item))
+			messages.success(request, 'Your "%s" was added successfully.' %(item.name))
 			return HttpResponseRedirect('/sharing/inventory/') 
 		else:
 			print item_form.errors
@@ -210,7 +217,7 @@ def add_group(request):
 
 			group.save() # saves form data to database.
 			group_added = True
-			messages.success(request, 'You successfully added the group "%s".' %(group))
+			messages.success(request, 'You successfully added the group "%s".' %(group.name))
 			return HttpResponseRedirect('/sharing/')
 		else:
 			print group_form.errors
@@ -425,6 +432,3 @@ def borrow_req_borrower_process (request, borrow_id): # TO DO: rename to borrow_
 				item__member__user=request.user, id=borrow_id)
 		borrow_request_form = BorrowRequestForm(data=request.POST)
 		print "borrow_request= ", borrow_request
-
-
-

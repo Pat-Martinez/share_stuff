@@ -18,7 +18,8 @@
         <h2>Welcome {{ user.first_name }} <small>to the "{{ group.name }}" sharing group</small> </h2>
     {% endfor %}
     {% else %}
-        <h1>Welcome {{ user.first_name }} <small>You haven't joined any sharing groups yet.</small> </h1>
+        <h2>Welcome {{ user.first_name }} <small>You haven't joined any sharing groups yet.</small></h2>
+        <hr>
         <h4>Would you like to join a group? <small><a href="/sharing/groups/">See list of groups.</a></small></h4>
         <h4>Would you like to create your own group? <small><a href="/sharing/add_group">Create a group.</a></small></h4>  
     {% endif %}
@@ -78,54 +79,67 @@
       {% endif %}
       {% endfor %}
     </ul>
+    <br>
   {% endfor %} <!-- endfor 46 -->
 {% endif %} <!-- endif 45 -->
+
 <!-- ################################# -->
 
 <!-- ############ List of Group Items available to borrow ########## -->
-{% for group in groups %}
-  <h3>{{ group.name }} Items Available to Borrow</h3>
-{% endfor %}
+{% if items_to_borrow %}
+  {% for group in groups %}
+    <h3>{{ group.name }} Items Available to Borrow</h3>
+  {% endfor %}
 
-<div class=note>
-<p>NOTE: Currently borrow function doesn't work.</p>
-</div>
+  <div class=note>
+  <p>NOTE: Currently borrow function doesn't work.</p>
+  </div>
 
-<div class="row">
+  <div class="row">
     <div class='col-md-8'>
-        <ul class="list-group">
-            {% if group_items %}
-            {% for item in items_to_borrow %}
-                <li class="list-group-item" style='min-height: 40px'>
+      <ul class="list-group">
+          {% if group_items %}
+          {% for item in items_to_borrow %}
+            <li class="list-group-item" style='min-height: 40px'>
 
-                  <!-- TO DO: complete logic for borrow -->
-                  <form method="post" action="/sharing/borrow_requests/process/{{ req.id }}/">
+              <!-- TO DO: complete logic for borrow -->
+              <form method="post" action="/sharing/borrow_requests/process/{{ req.id }}/">
 
-                  <div style= 'float: left'>
-                    {{ item.name }}
-                  </div>
+              <div style= 'float: left'>
+                {{ item.name }}
+              </div>
 
-                  <div style= 'float: right'>
-                    <!-- TO DO: complete logic for borrow -->
-                      <button class="btn btn-xs btn-primary" type="button" >Borrow</a>
-                  </div>
-                </li>  
-            {% endfor %}
-        </ul>
-            {% else %}
-                <h3>Items Available to Borrow</h3>
-                <strong>There are currently no items to borrow.</strong>        
-            {% endif %}
-</div>
+              <div style= 'float: right'>
+                <!-- TO DO: complete logic for borrow -->
+                  <button class="btn btn-xs btn-primary" type="button" >Borrow</a>
+              </div>
+            </li>  
+          {% endfor %}
+          {% endif %}
+      </ul>
     </div>
+  </div>          
+{% else %}
+  {% for group in groups %}
+    <h3>{{ group.name }} Items Available to Borrow</h3> <strong>There are currently no items to borrow.</strong>
+  {% endfor %}
+{% endif %}
+ 
 <!-- ############################################ -->
 
 {% else %}
-<div class='jumbotron'>
-  <h1>Welcome to Share Stuff!</h1>
 
-  <p>Need a cordless drill for that one-time or rare project and would rather borrow than buy one? Give Share Stuff a try. </p>
-  <p>List items (kitchen stuff, electronics, tools, outdoor gear, etc.) that you're willing to share with others, and find stuff to borrow.</p>
+<div class='jumbotron jumbotron-center'>
+  <div class ='container'>
+  <h1>Welcome to Share Stuff!</h1>
+    <div class='col-lg-8 col-lg-offset-2'> 
+    <p>Need a cordless drill or kitchen appliance for that one-time or rare project and would rather borrow than buy one? 
+    <br>Give Share Stuff a try. </p>
+    <p>List items (kitchen stuff, electronics, tools, outdoor gear, etc.) that you're willing to share with others, and find stuff to borrow.</p>
+    </div>
+    <br>
+    <a class="btn btn-lg btn-success" href="about">Learn More</button></a>
+  </div>
 </div>
 
 {% endif %}

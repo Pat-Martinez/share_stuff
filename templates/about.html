@@ -3,13 +3,57 @@
 
 {% block body_block %}
 
-<div class='jumbotron'>
+<div class='jumbotron jumbotron-center'>
 	<h1>About Share Stuff</h1>
-	<p>Share Stuff is my first Web App created with Django.</p>
+	<p>My first Web App created with Django.</p>
 </div>
 
-<div>
+<p>This web app was my student project for the <a href="/pdxcodeguild.com">PDX Code Guild</a>. I had so  much fun, and moments of maddening frustration, creating this project in Python and Django. I couldn't have done it without the generous help of <a href="/www.linkedin.com/in/chrisfreemanpdx">Chris Freeman</a>, <a href="/www.linkedin.com/in/chrischarlesjones">Chris Jones</a>, and <a href="/www.linkedin.com/pub/ben-kulp/30/181/247">Ben Kulp</a>.  Thanks guys!</p>
 
+<p>This is a work in progresss so I'll continue to improve this app and add features.</p>
+<br>
+
+<a href="/https://github.com/Pat-Martinez/share_stuff"><img src="media/github-mark-64px.png" alt='GitHub icon'></a> To view the code, visit my <a href="/https://github.com/Pat-Martinez/share_stuff">GitHub</a> account.
+
+<hr>
+
+<h3>BUGS</h3>
+<ul>
+<li>When you log in and then hit the back arrow and try to log in again it gives an error.</li>
+<li>When a member joins more than one group all sorts of craziness can occur on the member page (home page).</li>
+</ul>
+
+<br>
+
+<h3>FUTURE FEATURES</h3>
+<ul>
+  <li>Enable borrow button to work.</li>
+  <li>Enable group join request button to work</li>
+  <li>Enable moderator to remove a member from their group.</li>
+  <li>Enable member to edit one of their items.</li>
+  <li>Enable member to see a list of items they've borrowed.</li>
+  <li>Enable member to see a list of their items that are on loan.</li>
+  <li>Enable the ability to search for items.</li>
+  <li>Enable email messages to be sent for things like a member has received a borrow request or their borrow request has been accepted or rejected.</li>
+  <li>Enable a javascript popup that asks a member to confirm their decision when they click the delete item button.</li>
+</ul>
+<br>
+
+<h3>SAMPLE MEMBER ACCOUNTS</h3>
+<p>Either  <a href="/sharing/register">register</a> as a member and add items to share, etc. or check out the sample accounts below. Of course these may change if someone logs in and adds or deletes items or accepts or rejects borrow or join requests.  I'll periodically check back and update these accounts.</p>
+{% if sample_members %} 
+{% for member in sample_members %}
+  <ul>
+    <li><b>Username</b>: {{ member.user.username}}, <b>Password</b>: yomamma, 
+    <br><b>Comments</b>: {{member.comment}}</li>
+  </ul>
+{% endfor %}
+{% endif %}
+
+<hr>
+
+<div class=note>
+  <h4>Send comments and suggestions to<img src="media/my_email_address.gif" width=240px
+  </h4>
 </div>
-
 {% endblock %}
