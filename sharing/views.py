@@ -24,9 +24,11 @@ def index(request):
 	borrow_requests_pending = []
 	items_to_borrow = []
 	all_members = Member.objects.all()
+	member = []
 
 	if request.user.is_authenticated() and request.method == 'GET':
 		member = Member.objects.get(user=request.user)
+		
 		# list of a member's items
 		item_list = Item.objects.filter(member__user=request.user)
 		
@@ -64,8 +66,8 @@ def index(request):
 		for item in group_items:
 			if item.member.user != request.user:
 				items_to_borrow.append(item)
-	else:
-		member = False
+	# else:
+	# 	member = False
 
 	context_dict = {'navbar': 'home', 'member': member, 'items': item_list,
 			'moderator': moderator, 'join_requests': join_requests,
