@@ -10,7 +10,7 @@
 
 <p>This web app was my student project for the <a href="http://pdxcodeguild.com">PDX Code Guild</a>. I had so  much fun, and moments of maddening frustration, creating this project in Python and Django. I couldn't have done it without the generous help of <a href="https://www.linkedin.com/in/chrisfreemanpdx">Chris Freeman</a>, <a href="https://www.linkedin.com/in/chrischarlesjones">Chris Jones</a>, and <a href="https://www.linkedin.com/pub/ben-kulp/30/181/247">Ben Kulp</a>.  Thanks guys!</p>
 
-<p>This is a work in progresss so I'll continue to improve this app and add features.</p>
+<p>This is a work in progress so I'll continue to improve this app and add features.</p>
 <br>
 
 <a href="https://github.com/Pat-Martinez/share_stuff"><img src="media/github-mark-64px.png" alt='GitHub icon'></a> To view the code, visit my <a href="https://github.com/Pat-Martinez/share_stuff">GitHub</a> account.
@@ -44,10 +44,12 @@
 {% if sample_members %} 
 {% for member in sample_members %}
   <ul>
-    <li><b>Username</b>: {{ member.user.username}}, <b>Password</b>: yomamma, 
+    <li><b>Username</b>: {{ member.user.username}}, <b>Password</b>: letstrythis, 
     <br><b>Comments</b>: {{member.comment}}</li>
   </ul>
-{% endfor %}
+{% endfor %}  
+{% else %}
+  <strong>Currently, there are no sample member accounts.</strong>
 {% endif %}
 
 <hr>

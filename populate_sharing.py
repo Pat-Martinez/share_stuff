@@ -2,13 +2,15 @@ import os
 
 # Populates database with data for-
 #   User (username, first_name, last_name, email, password,)
-#   Member (profile_picture, zip_code)
+#   Member (profile_picture, zip_code, comment)
 #   Item (member, name, category, description, photo)
+#   Group (moderator, name, description, pic)
 
 def populate():
     # add sample member with two items
     user_1 = add_user('sample_1', 'Bruno', 'Sample', 'test1@gmail.com', 'letstrythis')
-    member_1 = add_member(user_1, 'Blank', '97210')
+    member_1 = add_member(user_1, 'Blank', '97210', 
+        'Has 2 items, 2 borrow requests and 2 join requests. Moderator of West Side Coders group.')
     add_item(member_1, 'Croquet Set', 'Sports', 'The best croquest set ever! Really!', 
             'item_images/croquet.jpg')
     add_item(member_1, 'Flux Capacitor', 'Electronics', 'Use at your own risk!', 
@@ -16,7 +18,8 @@ def populate():
 
     # add sample member with two items
     user_4 = add_user('sample_2', 'Ursula', 'Sample', 'test1@gmail.com', 'letstrythis')
-    member_4 = add_member(user_4, 'Blank', '97210')
+    member_4 = add_member(user_4, 'Blank', '97210',
+        'Has 2 items and 1 borrow request. Member of West Side Coders Group.')
     add_item(member_4, '5 Gallon Stock Pot', 'Home', "Good quality, stainless steel, doesn't have a lid", 
             'item_images/stockpot.jpeg')
     add_item(member_4, 'Karaoke Machine', 'Electronics', 'works OK', 
@@ -24,13 +27,14 @@ def populate():
 
     # add sample member with one item
     user_6 = add_user('sample_3', 'Zeus', 'Sample', 'test1@gmail.com', 'letstrythis')
-    member_6 = add_member(user_6, 'Blank', '97210')
+    member_6 = add_member(user_6, 'Blank', '97210',
+        "Has 1 item, does not belong to any groups.")
     add_item(member_6, 'Cordless Drill', 'Tools', 'Comes with two batteries', 
             'item_images/drill.jpeg')
 
     # add member with two items
     user_2 = add_user('Sean1', 'Sean', 'Johnson', 'test1@gmail.com', 'letstrythis')
-    member_2 = add_member(user_2, 'Blank', '97210')
+    member_2 = add_member(user_2, 'Blank', '97210', '')
     add_item(member_2, 'Snow Shoes', 'Sports', 'Easy to use.', 
             'item_images/snowshoes.jpg')
 
@@ -39,30 +43,30 @@ def populate():
 
     # add member with no items
     user_3 = add_user('Sally1', 'Sally', 'Smith', 'test1@gmail.com', 'letstrythis')
-    member_3 = add_member(user_3, 'Blank', '97210')
+    member_3 = add_member(user_3, 'Blank', '97210', '')
 
 
     # add member with one item
     user_5 = add_user('Elle1', 'Elle', 'Brown', 'test1@gmail.com', 'letstrythis')
-    member_5 = add_member(user_5, 'Blank', '97210')
+    member_5 = add_member(user_5, 'Blank', '97210', '')
     add_item(member_5, 'Cuisinart', 'Kitchen', 'Works great!', 
             'item_images/cuisinart.jpeg')
 
     # add member with one item
     user_7 = add_user('Aphrodite1', 'Aphrodite', 'Odell', 'test1@gmail.com', 'letstrythis')
-    member_7 = add_member(user_7, 'Blank', '97210')
+    member_7 = add_member(user_7, 'Blank', '97210', '')
     add_item(member_7, 'Harp', 'Other', 'Needs tuning', 'Blank')
 
     # add member with one item
     user_8 = add_user('zenmaster', 'Jeremy', 'Simantel', 'test1@gmail.com', 'letstrythis')
-    member_8 = add_member(user_8, 'Blank', '97210')
+    member_8 = add_member(user_8, 'Blank', '97210', '')
     add_item(member_8, 'backpacking stove', 'Sports', 
         "Works great! I bought a jet boil so I rarely use this stove.",
         'item_images/backpacking_stove.jpg')
 
     # add member with one item
     user_9 = add_user('martinej123', 'Pat', 'Martinez', 'test1@gmail.com', 'letstrythis')
-    member_9 = add_member(user_9, 'Blank', '97210')
+    member_9 = add_member(user_9, 'Blank', '97210', '')
     add_item(member_9, 'backpacking tent', 'Sports', 'Great for one person, and a little tight for two', 
             'item_images/backpacking_tent.jpg')
 
@@ -120,9 +124,9 @@ def add_user(username, first, last, email, passw):
 
     return u
 
-def add_member(user, pic, zip):
+def add_member(user, pic, zip, comment):
     m = Member.objects.get_or_create(user=user, profile_picture=pic,
-                zip_code=zip)[0]
+                zip_code=zip, comment=comment)[0]
     return m
 
 def add_moderator(member):

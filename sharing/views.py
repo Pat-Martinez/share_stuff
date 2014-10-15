@@ -66,8 +66,6 @@ def index(request):
 		for item in group_items:
 			if item.member.user != request.user:
 				items_to_borrow.append(item)
-	# else:
-	# 	member = False
 
 	context_dict = {'navbar': 'home', 'member': member, 'items': item_list,
 			'moderator': moderator, 'join_requests': join_requests,
@@ -110,7 +108,7 @@ def register(request):
 
 			member.save()
 			registered = True
-			messages.sucess(request, 'Thank you for registering!')
+			messages.success(request, 'Thank you for registering!')
 
 			return HttpResponseRedirect('/sharing/sign_in')
 
