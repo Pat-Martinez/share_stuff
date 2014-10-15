@@ -6,7 +6,7 @@ class Member(models.Model):
 	user = models.OneToOneField(User)
 	profile_picture = models.ImageField(upload_to='profile_images', blank=True)
 	zip_code = models.CharField(max_length=5)
-	comment = models.CharField(max_length=60) # used for sample members.
+	comment = models.TextField(blank=True) # used for sample member accounts.
 
 	def __unicode__(self):
 		return "(%s) %s %s" %(self.user.username, self.user.first_name,
