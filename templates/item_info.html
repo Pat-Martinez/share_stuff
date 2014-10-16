@@ -11,8 +11,11 @@
       <p>Description: {{ item.description }}</p>
       <p>Category: {{ item.get_category_display }}</p>
       
-      <div class='note'><p>NOTE: Currently unable to edit item details.</p>
+      <div class='note'><p>NOTE: Currently unable to edit item details. However, the delete function works.</p>
       </div>
+
+      <button class="btn btn-sm btn-danger" type="button" onClick='parent.location= "/sharing/inventory/delete_item/{{ item.id }}/"' 
+      value="Delete">Delete</button>
     {% endif %}
   </div>
 </div>  
