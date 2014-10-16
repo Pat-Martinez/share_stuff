@@ -25,70 +25,23 @@
     {% endif %}
 </div>
 
-<!-- ############# List of member's items ################ -->
- <h3> Your Items Available to Share </h3>
-{% if items %}
-<div class="row">
-  <div class='col-md-8'>
-      <ul class="list-group">   
-          {% for item in items %}
-          <li class="list-group-item" style='min-height: 40px'>
-              <div > {# row #}
-                  <div style= 'float: left'>
-                      {{ item.name }} &nbsp
-                  </div>
-                  <div style= 'float: right'>
-                      <a class="btn btn-xs btn-primary" href="/sharing/inventory/item_info/{{ item.id }}/">Edit</a>
-                  </div>
-              </div> {# end row #}
-          </li>
-          {% endfor %}
-      </ul>  
-      {% else %}
-          <strong>You currently have no items.</strong> <a href="/sharing/add_item"> Add an item.</a><br><br>
-
-      {% endif %}
-</div>
-    </div>
-<!-- ########################################### -->
-
 <!-- ######## Show Join Requests if moderator & they have requests ######### -->
 {% if join_requests_pending %}
     <h4><span class="glyphicon glyphicon-hand-right"></span> You have <font color="red"><strong>"{{ join_requests_pending|length }}"</strong></font> request(s) to join your group. <small><a href="/sharing/join_requests/">View Requests</a></small></h4>
-    <br>
 {% endif %}
 <!-- ########################################## -->
 
 <!-- ################### Show Borrow Requests if they have requests ######################## -->
 {% if borrow_requests_pending %}
     <h4><span class="glyphicon glyphicon-hand-right"></span> You have <font color="red"><strong>"{{ borrow_requests_pending|length }}"</strong></font> request(s) to borrow an item. <small><a href="/sharing/borrow_requests/">View Requests</a></small></h4>
-    <br>
 {% endif %}
 <!-- ############################################## -->
-
-<!-- ############## List of Group's Members ############### -->
-{% if groups %} <!-- 45 -->
-  {% for group in groups %} <!-- 46 -->
-    <h3>{{ group.name }}  Members</h3>
-    <ul>
-      {% for member in group_members %}
-      {% if member == group.moderator.member %}
-        <li>{{ group.moderator.member.user.get_full_name }} (Group Moderator)</li>
-      {% else %}
-        <li>{{ member.user.get_full_name }}</li>
-      {% endif %}
-      {% endfor %}
-    </ul>
-    <br>
-  {% endfor %} <!-- endfor 46 -->
-{% endif %} <!-- endif 45 -->
-
-<!-- ################################# -->
-
+<hr>
+<br>
 <!-- ############ List of Group Items available to borrow ########## -->
 {% if items_to_borrow %}
   {% for group in groups %}
-    <h3>{{ group.name }} Items Available to Borrow</h3>
+    <h3>Items Available to Borrow From "{{ group.name }}"</h3>
   {% endfor %}
 
   <div class=note>
@@ -100,18 +53,23 @@
       <ul class="list-group">
           {% if group_items %}
           {% for item in items_to_borrow %}
-            <li class="list-group-item" style='min-height: 40px'>
+            <li class="list-group-item" style='min-height: 90px'>
 
               <!-- TO DO: complete logic for borrow -->
               <form method="post" action="/sharing/borrow_requests/process/{{ req.id }}/">
 
               <div style= 'float: left'>
+                {% if item.photo %}
+                    <img src="/media/{{ item.photo }}" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
+                    {% else %}
+                    <img src="/media/item_images/blank_image.jpeg" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
+                    {% endif %}
                 {{ item.name }}
               </div>
 
               <div style= 'float: right'>
                 <!-- TO DO: complete logic for borrow -->
-                  <button class="btn btn-xs btn-primary" type="button" >Borrow</a>
+                  <button class="btn btn-xs btn-primary" type="button" style="margin: 25px 0px 0px 0px;">Borrow</a>
               </div>
             </li>  
           {% endfor %}
@@ -126,6 +84,58 @@
 {% endif %}
  
 <!-- ############################################ -->
+<!-- ############# List of member's items ################ -->
+ <h3> Your Items Available to Share </h3>
+{% if items %}
+<div class="row">
+  <div class='col-md-8'>
+      <ul class="list-group">   
+          {% for item in items %}
+          <li class="list-group-item" style='min-height: 90px'>
+              <div> {# row #}
+                  <div style= 'float: left'>
+                    {% if item.photo %}
+                    <img src="/media/{{ item.photo }}" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
+                    {% else %}
+                    <img src="/media/item_images/blank_image.jpeg" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
+                    {% endif %}
+                    {{ item.name }} &nbsp
+                  </div>
+                  <div style= 'float: right'>
+                      <a class="btn btn-xs btn-primary" href="/sharing/inventory/item_info/{{ item.id }}/" style="margin: 25px 0px 0px 0px;">Edit</a>
+                  </div>
+              </div> {# end row #}
+          </li>
+          {% endfor %}
+      </ul>  
+      {% else %}
+          <strong>You currently have no items.</strong> <a href="/sharing/add_item"> Add an item.</a><br><br>
+
+      {% endif %}
+</div>
+    </div>
+<!-- ########################################### -->
+
+
+
+<!-- ############## List of Group's Members ############### -->
+{% if groups %} <!-- 45 -->
+  {% for group in groups %} <!-- 46 -->
+    <h3>Members of the group "{{ group.name }}"</h3>
+    <ul>
+      {% for member in group_members %}
+      {% if member == group.moderator.member %}
+        <li>{{ group.moderator.member.user.get_full_name }} (Group Moderator)</li>
+      {% else %}
+        <li>{{ member.user.get_full_name }}</li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+    <br>
+  {% endfor %} <!-- endfor 46 -->
+{% endif %} <!-- endif 45 -->
+
+<!-- ################################# -->
 
 {% else %}
 

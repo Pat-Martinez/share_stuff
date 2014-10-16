@@ -6,24 +6,32 @@
 {% block body_block %}
 
     {% if requests_pending %}
-      <div class= "jumbotron jumbotron-small">
+    <div class= "jumbotron jumbotron-small">
         <h2>Pending borrow requests</h2>
     </div>
         <ul>
             {% for req in requests_pending %}
-            <li>{{ req.borrower }} wants to borrow your {{ req.item }}
+            <li>{{ req.borrower.user.first_name }} {{ req.borrower.user.last_name }} ({{ req.borrower.user.username }}) wants to borrow your {{ req.item.name }}
                 <br>
                 Request date: {{ req.request_date|date }}
                 <form method="post" action="/sharing/borrow_requests/process/{{ req.id }}/">
                 {{ borrow_request_form }}
                 {% csrf_token %}
-                <input type="submit" name="submit" value="Submit"></input> <br><br>
+                <button class="btn btn-xs btn-primary" type="submit">Submit</button>
                 </form>
+                <br>
             </li>
             {% endfor %}
         </ul>
     {% else %}
-        <strong>You have no Pending Borrow Requests.</strong>
+    <div class= "jumbotron jumbotron-small">
+        <h2>Pending borrow requests</h2>
+    </div>
+      <ul>
+        <li>You have no Pending Borrow Requests.</li>
+      </ul>
+      <br>
+      <br>
     {% endif %}
 
     {% if requests_completed %}
@@ -33,7 +41,7 @@
         
         <ul>
             {% for req in requests_completed %}
-            <li>{{ req.borrower }} - 
+            <li>{{ req.borrower.user.first_name }} {{ req.borrower.user.last_name }} ({{ req.borrower.user.username }})- 
                 {% if req.accept_request %} Accepted
                 {% else %} Rejected
                 {% endif %}
@@ -44,7 +52,3 @@
     {% endif %}
 
 {% endblock %}
-
-
-
-

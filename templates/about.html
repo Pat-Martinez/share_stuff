@@ -2,10 +2,9 @@
 {% block title %} About {% endblock %}
 
 {% block body_block %}
-
 <div class='jumbotron jumbotron-center'>
-	<h1>About Share Stuff</h1>
-	<p>My first Web App created with Django.</p>
+  <h1>About Share Stuff</h1>
+  <p>My first Web App created with Django.</p>
 </div>
 
 <p>This web app was my student project for the <a href="http://pdxcodeguild.com">PDX Code Guild</a>. I had so  much fun, and moments of maddening frustration, creating this project in Python and Django. I couldn't have done it without the generous help of <a href="https://www.linkedin.com/in/chrisfreemanpdx">Chris Freeman</a>, <a href="https://www.linkedin.com/in/chrischarlesjones">Chris Jones</a>, and <a href="https://www.linkedin.com/pub/ben-kulp/30/181/247">Ben Kulp</a>.  Thanks guys!</p>
@@ -13,15 +12,22 @@
 <p>This is a work in progress so I'll continue to improve this app and add features.</p>
 <br>
 
-<a href="https://github.com/Pat-Martinez/share_stuff"><img src="media/github-mark-64px.png" alt='GitHub icon'></a> To view the code, visit my <a href="https://github.com/Pat-Martinez/share_stuff">GitHub</a> account.
+<a href="/https://github.com/Pat-Martinez/share_stuff"><img src="media/github-mark-64px.png" alt='GitHub icon'></a> To view the code, visit my <a href="/https://github.com/Pat-Martinez/share_stuff">GitHub</a> account.
 
 <hr>
 
-<h3>BUGS</h3>
-<ul>
-<li>When you log in and then hit the back arrow and try to log in again it gives an error.</li>
-<li>When a member joins more than one group all sorts of craziness can occur on the member page (home page).</li>
-</ul>
+<h3>SAMPLE MEMBER ACCOUNTS</h3>
+<p><a href="/sharing/register">Register</a> as a member and add items to share or create a sharing group. Alternatively, check out the sample accounts below. Of course these accounts may change if someone logs in and adds or deletes items or accepts or rejects borrow or join requests.  I'll periodically check back and update these accounts.</p>
+{% if sample_members %} 
+{% for member in sample_members %}
+  <ul>
+    <li><b>Username</b>: {{ member.user.username}}, <b>Password</b>: letstrythis, 
+    <br><b>Comments</b>: {{member.comment}}</li>
+  </ul>
+{% endfor %}  
+{% else %}
+  <strong>Currently, there are no sample member accounts.</strong>
+{% endif %}
 
 <br>
 
@@ -39,23 +45,17 @@
 </ul>
 <br>
 
-<h3>SAMPLE MEMBER ACCOUNTS</h3>
-<p>Either  <a href="/sharing/register">register</a> as a member and add items to share, etc. or check out the sample accounts below. Of course these may change if someone logs in and adds or deletes items or accepts or rejects borrow or join requests.  I'll periodically check back and update these accounts.</p>
-{% if sample_members %} 
-{% for member in sample_members %}
-  <ul>
-    <li><b>Username</b>: {{ member.user.username}}, <b>Password</b>: letstrythis, 
-    <br><b>Comments</b>: {{member.comment}}</li>
-  </ul>
-{% endfor %}  
-{% else %}
-  <strong>Currently, there are no sample member accounts.</strong>
-{% endif %}
+<h3>BUGS</h3>
+<ul>
+<li>When a member joins more than one group all sorts of craziness can occur on the member page (home page).
+<li>There's gotta be more bugs. If you find one, I'd greatly appreciate it if you notify me at <img src="media/my_email_address.gif" alt="My email address" width=240px></li>
+</li>
+</ul>
 
 <hr>
 
 <div class=note>
-  <h4>Send comments and suggestions to<img src="media/my_email_address.gif" width=240px
+  <h4>Send comments and suggestions to<img src="media/my_email_address.gif" alt="My email address" width=240px>
   </h4>
 </div>
 {% endblock %}

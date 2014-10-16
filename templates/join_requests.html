@@ -11,18 +11,26 @@
        </div>
         <ul>
             {% for req in requests_pending %}
-            <li>{{ req.requestor }} wants to join your group.
+            <li>{{ req.requestor.user.first_name }} {{ req.requestor.user.last_name }} ({{ req.requestor.user.username }}) wants to join your group.
             <br> Request Date: {{ req.request_date|date }}
                 <form method="post" action="/sharing/join_requests/process/{{ req.id }}/">
                 {{ accept_request_form }}
                 {% csrf_token %}
-                <input type="submit" name="submit" value="Submit"></input> <br><br>
+                <button class="btn btn-xs btn-primary" type="submit">Submit</button>
                 </form>
+                <br>
             </li>
             {% endfor %}
         </ul>
     {% else %}
-        <strong>You have no Pending Join Requests.</strong>
+        <div class= "jumbotron jumbotron-small">
+          <h2>Pending borrow requests</h2>
+        </div>
+        <ul>
+          <li>You have no Pending Join Requests.</li>
+        </ul>
+        <br>
+        <br>
     {% endif %}
 
     {% if requests_completed %}
@@ -31,7 +39,7 @@
         </div>
         <ul>
             {% for req in requests_completed %}
-            <li>{{ req.requestor }} - 
+            <li>{{ req.requestor.user.first_name }} {{ req.requestor.user.last_name }} ({{ req.requestor.user.username }}) - 
                 {% if req.accept %} Accepted
                 {% else %} Rejected
                 {% endif %}
@@ -42,7 +50,3 @@
     {% endif %}
 
 {% endblock %}
-
-
-
-
