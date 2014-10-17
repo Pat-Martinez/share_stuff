@@ -7,10 +7,11 @@ from sharing.forms import BorrowRequestForm  # BorrowForm
 from sharing.models import Member, Group, Item, Moderator, JoinRequest, BorrowRequest
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
 from datetime import datetime
 from django.contrib import messages
 
-
+@never_cache
 def index(request):
 	all_members = []
 	item_list = []
