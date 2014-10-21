@@ -110,6 +110,15 @@ body {
     line-height: 1.42857;
 }
 
+/*Formatting for labels on forms.*/
+label {
+    display: inline-block;
+    font-weight: 700;
+    margin-bottom: 5px;
+    max-width: 100%;
+    min-width: 150px;
+}
+
 /*.btn-primary {
     background-image: linear-gradient(to bottom, #F79B4A 0%, #D9853B 100%);
     background-repeat: repeat-x;

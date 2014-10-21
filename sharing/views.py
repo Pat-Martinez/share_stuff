@@ -11,6 +11,7 @@ from django.views.decorators.cache import never_cache
 from datetime import datetime
 from django.contrib import messages
 
+
 @never_cache
 def index(request):
 	all_members = []
@@ -238,60 +239,6 @@ def inventory(request):
 	return render(request, 'inventory.html', context_dict)
 
 
-# View to show info about a specific member.
-@login_required
-def member(request):
-	group_items = []
-	group_members = []
-	join_requests_pending = []
-	borrow_requests_pending = []
-	items_to_borrow = []
-
-	# list of a member's items
-	item_list = Item.objects.filter(member__user=request.user)
-	
-	# is the member a moderator?
-	moderator = Moderator.objects.filter(member__user=request.user)
-
-	# list of join requests for a moderator
-	join_requests = JoinRequest.objects.filter(group__moderator__member__user=request.user)
-	# Determine which join requests are pending.
-	for req in join_requests:
-		if not req.action_date: # indicates moderator hasn't accepted or rejected join request
-			join_requests_pending.append(req)
-
-	# list of borrow requests for member
-	borrow_requests = BorrowRequest.objects.filter(item__member__user=request.user)
-	# Determine which borrow requests are pending.
-	for req in borrow_requests: # indicates member hasn't accepted or rejected borrow request
-		if not req.action_date:
-			borrow_requests_pending.append(req)
-
-	# all groups that a member belongs too
-	groups = Group.objects.filter(member_list__user=request.user)
-	
-	# list of items for the group.
-	for group in groups:
-		# get members of this group
-		group_members = group.member_list.all()
-		
-		# list of items for each member.
-		for member in group_members:
-			# get items for this member.
-			group_items.extend(Item.objects.filter(member=member))
-
-	#list of items available for a member to borrow.
-	for item in group_items:
-		if item.member.user != request.user:
-			items_to_borrow.append(item)
-
-	context_dict = {'items': item_list, 'moderator': moderator, 'join_requests': join_requests,
-			'groups': groups, 'group_members': group_members, 'group_items': group_items,
-			'borrow_requests': borrow_requests, 'borrow_requests_pending': borrow_requests_pending,
-			'join_requests_pending': join_requests_pending, "items_to_borrow": items_to_borrow}
-	return render(request, 'member.html', context_dict)
-
-
 # View for moderator to see their list of join requests submitted by members.
 @login_required
 def join_requests(request):
@@ -433,3 +380,8 @@ def borrow_req_borrower_process (request, borrow_id): # TO DO: rename to borrow_
 				item__member__user=request.user, id=borrow_id)
 		borrow_request_form = BorrowRequestForm(data=request.POST)
 		print "borrow_request= ", borrow_request
+
+
+# View to explain features that are in development.
+def under_construction (request):
+	return render (request, 'under_construction.html',)

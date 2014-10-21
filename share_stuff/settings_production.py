@@ -22,16 +22,19 @@ TEMPLATE_DIRS = (TEMPLATE_PATH,)
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'w%wzlr)=lb3g8rmz$^1m-a^kemt_5*r#y_p6$3455scpt6aaoa'
+SECRET_KEY = 'not shown'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
+ADMINS = ('Pat Martinez', 'patmartinezmtn@gmail.com')
 
 TEMPLATE_DEBUG = True
 
-# Used for local development
-ALLOWED_HOSTS = ['127.0.0.1',]
-
+ALLOWED_HOSTS = [
+'sharestuffnow.net',
+'www.sharestuffnow.net',
+]
 
 # Application definition
 
@@ -56,9 +59,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'share_stuff.urls'
+ROOT_URLCONF = 'myproject.urls' # *** was share_stuff.urls
 
-WSGI_APPLICATION = 'share_stuff.wsgi.application'
+WSGI_APPLICATION = 'myproject.wsgi.application' # *** was share_stuff
 
 
 # Database
@@ -66,28 +69,19 @@ WSGI_APPLICATION = 'share_stuff.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'sharing.db'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'share_stuff',
+        'USER': 'martinej123',
+        'PASSWORD': 'not shown', 
     }
 }
-
-# *** Production settings for Web Faction ***
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'share_stuff',
-#         'USER': 'martinej123',
-#         'PASSWORD': 'password not shown', 
-#     }
-# }
-# *********************************************
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Los_Angeles'
 
 USE_I18N = True
 
@@ -95,20 +89,12 @@ USE_L10N = True
 
 USE_TZ = True
 
+# This worked with DEBUG= True
+# STATIC_URL = 'http://www.sharestuffnow.net/static/'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
 STATIC_URL = '/static/'
-STATIC_ROOT = 'staticfiles'
-
-# don't forget the last comma.  STATICFILES_DIRS is a tupple.
+STATIC_ROOT = '/home/martinej123/webapps/share_stuff_static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-
-# *** Production settings for Web Faction ***
-# STATIC_URL = '/static/'
-# STATIC_ROOT = '/home/martinej123/webapps/share_stuff_static/'
-# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-# *******************************************
 
 #Media Files
 MEDIA_URL = '/media/'

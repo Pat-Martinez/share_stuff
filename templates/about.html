@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% block title %} About {% endblock %}
 
 {% block body_block %}
@@ -12,7 +13,7 @@
 <p>This is a work in progress so I'll continue to improve this app and add features.</p>
 <br>
 
-<a href="https://github.com/Pat-Martinez/share_stuff"><img src="media/github-mark-64px.png" alt='GitHub icon'></a> To view the code, visit my <a href="https://github.com/Pat-Martinez/share_stuff">GitHub</a> account.
+<a href="https://github.com/Pat-Martinez/share_stuff"><img src="{{ STATIC_URL }}/media/github-mark-64px.png" alt='GitHub icon'></a> To view the code, visit my <a href="https://github.com/Pat-Martinez/share_stuff">GitHub</a> account.
 
 <hr>
 
@@ -28,7 +29,22 @@
 {% else %}
   <strong>Currently, there are no sample member accounts.</strong>
 {% endif %}
+<br>
 
+<h3>AVAILABLE SHARING GROUPS</h3>
+<div class="row">
+  <div class='col-md-8'>
+    <ul class="list-group">
+      {% if groups %}
+      {% for group in groups %}
+      <li class="list-group-item" style='min-height: 40px'>
+        <a href="/groups/group_info/{{ group.id }}">{{ group.name }}</a> 
+      </li>
+      {% endfor %}
+      {% endif %}
+    </ul>
+  </div>
+</div> 
 <br>
 
 <h3>FUTURE FEATURES</h3>
@@ -48,14 +64,17 @@
 <h3>BUGS</h3>
 <ul>
 <li>When a member joins more than one group all sorts of craziness can occur on the member page (home page).
-<li>There's gotta be more bugs. If you find one, I'd greatly appreciate it if you notify me at<img src="media/my_email_address.gif" alt="My email address" width=240px></li>
+<li>File validation of image files (item images, group images, profile images) hasn't been included, thus non-image files can be uploaded. Also need to set a file size limit.</li>
+<li>Zip code validation hasn't been included on the registration page, thus invalid zipcodes can be added.</li>
+<li>Help me squash bugs! If you find one, I'd greatly appreciate it if you notify me at <a href="mailto:martijam123-share...yahoo(dot)com">martijam123-share ... yahoo dot com</a></li>
 </li>
 </ul>
 
 <hr>
 
 <div class=note>
-  <h4>Send comments and suggestions to<img src="media/my_email_address.gif" alt="My email address" width=240px>
+  <h4>Send comments and suggestions to <a href="mailto:martijam123-share...yahoo(dot)com">martijam123-share ... yahoo dot com</a>
   </h4>
 </div>
+
 {% endblock %}

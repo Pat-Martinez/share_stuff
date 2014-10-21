@@ -14,7 +14,6 @@ urlpatterns = patterns('',
         url(r'^(?i)add_group/$', views.add_group, name='add_group'),
         url(r'^(?i)sign_out/$', views.sign_out, name='sign_out'),
         url(r'^(?i)inventory/$', views.inventory, name='inventory'),
-        url(r'^(?i)member/$', views.member, name='member'),
         url(r'^(?i)join_requests/$', views.join_requests, name='join_requests'),
         url(r'^(?i)join_requests/process/(?P<request_id>\w+)/$', 
                 views.join_req_process, name='process'),
@@ -26,5 +25,7 @@ urlpatterns = patterns('',
         url(r'^(?i)borrow_requests/$', views.borrow_requests, name='borrow_requests'),
         url(r'^(?i)borrow_requests/process/(?P<borrow_id>\w+)/$', 
                 views.borrow_req_process, name='process'),
+        url(r'^(?i)under_construction/$', views.under_construction, name='under_construction'),
+
 
 )
