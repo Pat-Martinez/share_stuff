@@ -18,17 +18,19 @@
 <hr>
 
 <h3>SAMPLE MEMBER ACCOUNTS</h3>
-<p><a href="/sharing/register">Register</a> as a member and add items to share or create a sharing group. Alternatively, check out the sample accounts below. Of course these accounts may change if someone logs in and adds or deletes items or accepts or rejects borrow or join requests.  I'll periodically check back and update these accounts.</p>
-{% if sample_members %} 
-{% for member in sample_members %}
+<p><a href="/sharing/register">Register</a> as a member and add items to share or create a sharing group. Alternatively, check out the sample accounts below. These sample accounts demonstrate how the home page dynamically changes depending upon the number of borrow requests, if a member belongs to a sharing group, etc.</p>
+
+<p>Of course these accounts may change if someone logs in and adds/deletes items or accepts/rejects borrow or join requests.  I'll periodically check back and update these accounts.</p>
   <ul>
-    <li><b>Username</b>: {{ member.user.username}}, <b>Password</b>: letstrythis, 
-    <br><b>Comments</b>: {{member.comment}}</li>
-  </ul>
-{% endfor %}  
-{% else %}
-  <strong>Currently, there are no sample member accounts.</strong>
-{% endif %}
+    <li><b>Username</b>: sample_1, <b>Password</b>: letstrythis, 
+      <br><b>Comments</b>: Bruno Sample has 3 items, 2 borrow requests and 2 join requests. He's the Moderator of the West Side Coders group.</li>
+      <br>
+    <li><b>Username</b>: sample_2, <b>Password</b>: letstrythis, 
+      <br><b>Comments</b>: Ursula Sample has 2 items and 1 borrow request. She's a member of the West Side Coders Group.</li>
+      <br>
+    <li><b>Username</b>: sample_3, <b>Password</b>: letstrythis, 
+      <br><b>Comments</b>: Zeus Sample has 1 item and does not belong to any groups.</li>
+  </ul>  
 <br>
 
 <h3>AVAILABLE SHARING GROUPS</h3>
@@ -57,6 +59,7 @@
   <li>Enable member to see a list of their items that are on loan.</li>
   <li>Enable the ability to search for items.</li>
   <li>Enable email messages to be sent for things like a member has received a borrow request or their borrow request has been accepted or rejected.</li>
+  <li>Enable an editable profile page for members.</li>
   <li>Enable a javascript popup that asks a member to confirm their decision when they click the delete item button.</li>
 </ul>
 <br>

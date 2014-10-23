@@ -67,14 +67,14 @@ def index(request):
 		#list of items available for a member to borrow.
 		for item in group_items:
 			if item.member.user != request.user:
-				items_to_borrow.append(item)
+				items_to_borrow.append(item)		
 
 	context_dict = {'navbar': 'home', 'member': member, 'items': item_list,
 			'moderator': moderator, 'join_requests': join_requests,
 			'groups': groups, 'group_members': group_members, 'group_items': group_items,
 			'borrow_requests': borrow_requests, 'borrow_requests_pending':
 			borrow_requests_pending, 'join_requests_pending': join_requests_pending,
-			"items_to_borrow": items_to_borrow, 'all_members': all_members,}
+			"items_to_borrow": items_to_borrow, 'all_members': all_members}
 
 	return render(request, 'index.html', context_dict)
 
@@ -82,7 +82,7 @@ def index(request):
 def about(request):
    	# list of sample member accounts
 	sample_members = Member.objects.filter(user__username__startswith = 'sample_')
-	print sample_members
+	
 	context_dict = {'navbar': 'about', 'sample_members': sample_members}
 
 	return render(request, 'about.html', context_dict)
@@ -215,7 +215,7 @@ def add_group(request):
 			group.member_list.add(request.user.member)
 
 			if 'group_picture' in request.FILES:
-				group.photo = request.FILES['group_picture']
+				group.group_picture = request.FILES['group_picture']
 
 			group.save() # saves form data to database.
 			group_added = True
@@ -235,6 +235,7 @@ def add_group(request):
 def inventory(request):
 	# Query for items.
 	item_list = Item.objects.filter(member__user=request.user)
+
 	context_dict = {'items': item_list,}
 	return render(request, 'inventory.html', context_dict)
 

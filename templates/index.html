@@ -25,20 +25,20 @@
     {% endif %}
 </div>
 
-<!-- ######## Show Join Requests if moderator & they have requests ######### -->
+<!-- ############### Show Join Requests if moderator & they have requests ################# -->
 {% if join_requests_pending %}
-  <h4><span class="glyphicon glyphicon-hand-right"></span> You have <font color="red"><strong>"{{ join_requests_pending|length }}"</strong></font> request(s) to join your group. <small><a href="/sharing/join_requests/">View Requests</a></small></h4>
+  <h4><span class="glyphicon glyphicon-hand-right"></span> You have <font color="red"><strong>"{{ join_requests_pending|length }}"</strong></font> request{{ join_requests_pending|pluralize }} to join your group. <small><a href="/sharing/join_requests/">View Request{{ join_requests_pending|pluralize }}</a></small></h4>
 {% endif %}
-<!-- ########################################## -->
+<!-- ####################################################################################### -->
 
 <!-- ################### Show Borrow Requests if they have requests ######################## -->
 {% if borrow_requests_pending %}
-  <h4><span class="glyphicon glyphicon-hand-right"></span> You have <font color="red"><strong>"{{ borrow_requests_pending|length }}"</strong></font> request(s) to borrow an item. <small><a href="/sharing/borrow_requests/">View Requests</a></small></h4>
+  <h4><span class="glyphicon glyphicon-hand-right"></span> You have <font color="red"><strong>"{{ borrow_requests_pending|length }}"</strong></font> request{{ borrow_requests_pending|pluralize }} to borrow an item. <small><a href="/sharing/borrow_requests/">View Request{{ borrow_requests_pending|pluralize }}</a></small></h4>
 {% endif %}
-<!-- ############################################## -->
+<!-- ####################################################################################### -->
 <hr>
 <br>
-<!-- ############ List of Group Items available to borrow ########## -->
+<!-- ##################### List of Group Items available to borrow ########################## -->
 {% if items_to_borrow %}
   {% for group in groups %}
     <h3>Items Available to Borrow From "{{ group.name }}"</h3>
@@ -55,9 +55,9 @@
               <!-- <form method="post" action="/sharing/borrow_requests/process/{{ req.id }}/"> -->
 
                 {% if item.photo %}
-                  <img src="{{ STATIC_URL }}/media/{{ item.photo }}" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
+                  <img src="{{ STATIC_URL }}media/{{ item.photo }}" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
                   {% else %}
-                  <img src="{{ STATIC_URL }}/media/item_images/blank_image.jpeg" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
+                  <img src="{{ STATIC_URL }}media/item_images/blank_image.jpeg" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
                 {% endif %}
 
                 {{ item.name }}
@@ -78,8 +78,9 @@
   {% endfor %}
 {% endif %}
  
-<!-- ############################################ -->
-<!-- ############# List of member's items ################ -->
+<!-- ######################################################################################## -->
+
+<!-- ##################### List of member's items ###########################################-->
  <h3> Your Items Available to Share </h3>
 {% if items %}
 <div class="row">
@@ -88,9 +89,9 @@
           {% for item in items %}
           <li class="list-group-item" >
             {% if item.photo %}
-              <img src="{{ STATIC_URL }}/media/{{ item.photo }}" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
+              <img src="{{ STATIC_URL }}media/{{ item.photo }}" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
             {% else %}
-              <img src="{{ STATIC_URL }}/media/item_images/blank_image.jpeg" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
+              <img src="{{ STATIC_URL }}media/item_images/blank_image.jpeg" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
             {% endif %}
               {{ item.name }}
               <div>
@@ -104,9 +105,9 @@
 {% endif %}
 </div>
     </div>
-<!-- ########################################### -->
+<!-- ######################################################################################## -->
 
-<!-- ############## List of Group's Members ############### -->
+<!-- ############## List of Group's Members #################################################-->
 {% if groups %} <!-- 45 -->
   {% for group in groups %} <!-- 46 -->
     <h3>Members of the group "{{ group.name }}"</h3>
@@ -123,7 +124,7 @@
   {% endfor %} <!-- endfor 46 -->
 {% endif %} <!-- endif 45 -->
 
-<!-- ################################# -->
+<!-- ######################################################################################## -->
 
 {% else %}
 

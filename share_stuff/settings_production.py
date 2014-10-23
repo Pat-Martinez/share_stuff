@@ -98,6 +98,7 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 #Media Files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
+MEDIA_ROOT = '/home/martinej123/webapps/share_stuff_static/media/'
+# MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
 
 LOGIN_URL = '/sharing/sign_in/'
