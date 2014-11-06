@@ -55,9 +55,9 @@
               <!-- <form method="post" action="/sharing/borrow_requests/process/{{ req.id }}/"> -->
 
                 {% if item.photo %}
-                  <img src="{{ STATIC_URL }}media/{{ item.photo }}" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
+                  <img class="img_item_thumb" src="{{ STATIC_URL }}media/{{ item.photo }}" alt="Item Photo"/>
                   {% else %}
-                  <img src="{{ STATIC_URL }}media/item_images/blank_image.jpeg" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
+                  <img class="img_item_thumb" src="{{ STATIC_URL }}media/item_images/blank_image.jpeg" alt="Item Photo"/>
                 {% endif %}
 
                 {{ item.name }}
@@ -89,9 +89,9 @@
           {% for item in items %}
           <li class="list-group-item" >
             {% if item.photo %}
-              <img src="{{ STATIC_URL }}media/{{ item.photo }}" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
+              <img class="img_item_thumb" src="{{ STATIC_URL }}media/{{ item.photo }}" alt="Item Photo"/>
             {% else %}
-              <img src="{{ STATIC_URL }}media/item_images/blank_image.jpeg" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
+              <img class="img_item_thumb" src="{{ STATIC_URL }}media/item_images/blank_image.jpeg" alt="Item Photo"/>
             {% endif %}
               {{ item.name }}
               <div>

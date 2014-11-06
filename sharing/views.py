@@ -80,10 +80,11 @@ def index(request):
 
 
 def about(request):
+	groups = Group.objects.all()
    	# list of sample member accounts
 	sample_members = Member.objects.filter(user__username__startswith = 'sample_')
 	
-	context_dict = {'navbar': 'about', 'sample_members': sample_members}
+	context_dict = {'navbar': 'about', 'sample_members': sample_members, 'groups': groups}
 
 	return render(request, 'about.html', context_dict)
 

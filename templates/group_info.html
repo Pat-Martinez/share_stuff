@@ -7,7 +7,7 @@
     {% if group %}
         <h2>{{ group.name }} </h2>
         <hr>
-        <p>Description: {{ group.description }} {% if group.group_picture %} <img src="media/{{ group.group_picture }}" alt="Group Picture" style="float: right; padding: 10px 0px 10px 10px; height: 200px;"></p>
+        <p>Description: {{ group.description }} {% if group.group_picture %} <img class="img_group" src="{{ STATIC_URL }}media/{{ group.group_picture }}" alt="Group Picture"></p>
         {% endif %}
         
         <p>Moderator: {{ group.moderator }}</p>

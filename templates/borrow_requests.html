@@ -15,7 +15,7 @@
                 <br>
                 Request date: {{ req.request_date|date }}
                 <form method="post" action="/sharing/borrow_requests/process/{{ req.id }}/">
-                {{ borrow_request_form|ljust:'30' }}
+                {{ borrow_request_form }}
                 {% csrf_token %}
                 <button class="btn btn-xs btn-primary" type="submit">Submit</button>
                 </form>

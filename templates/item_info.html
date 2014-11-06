@@ -6,11 +6,12 @@
 <div class='jumbotron'>
   <div class='container'>
     {% if item %}
-      <h2>{{ item.name }} {% if item.photo %} <img src="media/{{ item.photo }}" alt="Item Photo" style="float: right; padding: 10px 0px 10px 0px; height: 250px;">
+      <h2>{{ item.name }} {% if item.photo %} <img class="img_item" src="{{ STATIC_URL }}media/{{ item.photo }}" alt="Item Photo"/>
       {% endif %}</h2> 
+
       <p>Description: {{ item.description }}</p>
       <p>Category: {{ item.get_category_display }}</p>
-      
+
       <div class='note'><p>NOTE: Currently unable to edit item details. However, the delete function works.</p>
       </div>
 

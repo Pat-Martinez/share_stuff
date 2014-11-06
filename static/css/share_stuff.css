@@ -110,6 +110,12 @@ hr {
 /**************** Formatting for labels on forms. **********************************
 Curious if there's a better way to do this. forms: register, add item, add group,
 accept/reject borrow and join group requests.*/
+
+/*Allows form input fields to autosize for width only.*/
+input, select, textarea {
+  width: 280px;
+  max-width: 100%;
+}
 label {
     min-width: 150px;
 }
@@ -129,6 +135,32 @@ label {
   margin-left: -30px;
   margin-right: 15px;
 }
+/***********************************************************************************/
+
+/******** Formatting for images ****************************************************/
+/*Allows images to autosize proportionally.*/
+img {
+  max-width: 100%;
+  height: auto;
+  width: auto\9; /* ie8 */
+}
+
+.img_item {
+  float: right;
+  margin: 10px 0px 10px 10px; 
+  width: 250px;
+}
+.img_item_thumb {
+  margin: 0px 10px 10px 0px; 
+  width: 65px;
+  height: 65px;
+}
+.img_group {
+  float: right;
+  margin: 10px 0px 10px 10px; 
+  width: 250px;
+}
+
 /***********************************************************************************/
 
 /*.btn-primary {

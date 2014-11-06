@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %} Your Inventory {% endblock %}
-	
+
 {% block body_block %}
 
 <!-- ############# List of member's items ################ -->
@@ -18,17 +18,17 @@
               <div> {# row #}
                   <div  style='float: left'>
                     {% if item.photo %}
-                    <img src="/media/{{ item.photo }}" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
+                     <img src="{{ STATIC_URL }}/media/{{ item.photo }}" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
                     {% else %}
-                    <img src="/media/item_images/blank_image.jpeg" alt="Item Photo" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
+                    <img src="{{ STATIC_URL }}/media/item_images/blank_image.jpeg" alt="Photo not available" style="padding: 0px 10px 10px 0px; height:75px; width:75px"/>
                     {% endif %}
                     <big>{{ item.name }}</big>
                   </div>
 
                   <div style='float: right'>
-                      <a class="btn btn-xs btn-primary" href="item_info/{{ item.id }}" style="margin: 5px 0px 0px 0px;">Edit</a>
+                      <a class="btn btn-xs btn-primary" href="item_info/{{ item.id }}" style="margin: 10px 0px 0px 0px;">Edit</a>
                       <br><button class="btn btn-xs btn-danger" type="button" style="margin: 5px 0px 0px 0px;" onClick='parent.location= "/sharing/inventory/delete_item/{{ item.id }}/"' 
-              value="Delete">Delete</button>
+                      value="Delete">Delete</button>
                   </div>
               </div> {# end row #}
           </li>
