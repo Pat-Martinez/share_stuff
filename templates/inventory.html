@@ -26,26 +26,9 @@
                   </div>
 
                   <div style='float: right'>
-                      <a class="btn btn-xs btn-primary" href="item_info/{{ item.id }}" style="margin: 10px 0px 0px 0px;">Edit</a>
-                      <br>
-                   <!--    <button class="btn btn-xs btn-danger" type="button" style="margin: 5px 0px 0px 0px;" onClick='parent.location= "/sharing/inventory/delete_item/{{ item.id }}/"' 
-                      value="Delete">Delete</button> -->
-
-                      
-<!-- <form>
-     <button class="delete btn btn-xs btn-danger " type="submit" formaction="/sharing/inventory/delete_item/{{ item.id }}/" style="margin: 5px 0px 0px 0px;" value="Delete">Delete!</button>
-</form>
- -->  
-
-
-
-<a class="btn btn-xs btn-danger delete" href="/sharing/inventory/delete_item/{{ item.id }}/" style="margin: 10px 0px 0px 0px;">Delete</a>
-
-
-<!-- 
-                      <button class="btn btn-xs btn-danger" type="button" style="margin: 5px 0px 0px 0px;" onclick="confirmDelete(this.value)" 
-                      value="{{ item.id }}">Delete</button> -->
-
+                    <a class="btn btn-xs btn-primary" href="item_info/{{ item.id }}" style="margin: 10px 0px 0px 0px;">Edit</a>
+                    <br>
+                    <a class="btn btn-xs btn-danger delete" href="/sharing/inventory/delete_item/{{ item.id }}/" style="margin: 10px 0px 0px 0px;">Delete</a>
                   </div>
               </div> {# end row #}
           </li>
