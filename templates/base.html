@@ -7,10 +7,10 @@
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet"> -->
-
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" rel="stylesheet">
-    <!-- <link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet"> -->
+
+    <!-- Font Awesome -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="{% static 'css/share_stuff.css' %}" rel="stylesheet">
@@ -22,7 +22,7 @@
 
 <!-- ##################### 1st Bootstrap addition ####################### -->
   <body role="document">
-    
+<div id="wrap">   
     <!-- Fixed navbar -->
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
@@ -90,18 +90,34 @@
         </div>
       </div>
     </div> <!-- /container -->
-
+</div> <!-- /wrap -->
 <!-- ######################### END 2nd ################################## -->
 
-    <!-- Bootstrap core JavaScript
-    ==================================================
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/share_stuff.js' %}"></script>
+<div id="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <ul>
+        <li><a href="../register/">Register</a></li>
+        <li><a href="../about/">About</a></li>
+        <li><a class="email-icon" href="mailto:martijam123-share(at)yahoo(dot)com"><i class="fa fa-envelope"></i> Contact</a></li>
+      </ul>
+      <ul class="social">
+        <li><a onmouseover="nhpup.popup('Link would take you to our Twitter page.');" href='some_twitter_acct.html'><i class="fa fa-twitter"></i></a></li>
+        <li><a onmouseover="nhpup.popup('Link would take you to our Facebook page.');" href='some_facebook_acct.html'><i class="fa fa-facebook"></i></a></li>
+      </ul>
+      <p>&#169; Share Stuff. All rights reserved.</p>
+    </div>
+  </div>
+</div>
 
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="{% static 'js/ie10-viewport-bug-workaround.js' %}"></script>
+  <!-- Bootstrap core JavaScript
+  ==================================================
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/share_stuff.js' %}"></script>
 
-    </body>
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <script src="{% static 'js/ie10-viewport-bug-workaround.js' %}"></script>
+
+  </body>
 </html>
-
