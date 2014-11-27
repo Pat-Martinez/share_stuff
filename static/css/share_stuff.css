@@ -215,7 +215,7 @@ html, body {
   color: #BEBEBE;
 }
 
-@media only screen and (max-width: 420px) {
+@media only screen and (max-width: 424px) {
   .footer-inner {
     margin-top: 25px;
   }
@@ -228,7 +228,7 @@ html, body {
   } 
 }
 
-@media only screen and (max-width: 380px) {
+@media only screen and (max-width: 384px) {
   .footer-inner ul {
     margin-left: 10px;
   }
