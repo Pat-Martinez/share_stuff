@@ -172,14 +172,14 @@ html, body {
   min-height: 100%;
   height: auto !important;
   /* Negative indent footer by it's height */
-  margin: 0 auto -150px;
-  padding: 0 0 150px;
+  margin: 0 auto -155px;
+  padding: 0 0 155px;
   overflow:auto;
 }
 
 /* Set the fixed height of the footer here */
 #footer {
-  height: 150px;
+  height: 155px;
   color: #BEBEBE;
   background-color: #444;
   border-top-color: #FFF;
@@ -208,11 +208,36 @@ html, body {
   margin-right: 50px;
 }
 .footer-inner .social{
-  margin-top: 20px;
-  margin-bottom: 0px;
+  margin-top: 15px;
+  margin-bottom: 10px;
 }
 .social a:link, .social a:visited {
   color: #BEBEBE;
+}
+
+@media only screen and (max-width: 420px) {
+  .footer-inner {
+    margin-top: 25px;
+  }
+  .footer-inner ul {
+    padding: 0px;
+    margin-left: 30px;
+  }
+  .footer-inner .social{
+    margin-bottom: 10px;
+  } 
+}
+
+@media only screen and (max-width: 380px) {
+  .footer-inner ul {
+    margin-left: 10px;
+  }
+  .footer-inner li {
+    margin-right: 25px;
+  }
+  .footer-inner p {
+    text-align: center;
+  }
 }
 /***************************************************************************************/
 
