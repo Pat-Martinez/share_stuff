@@ -387,3 +387,7 @@ def borrow_req_borrower_process (request, borrow_id): # TO DO: rename to borrow_
 # View to explain features that are in development.
 def under_construction (request):
 	return render (request, 'under_construction.html',)
+
+# View to explain technical details of the site.
+def behind_the_scenes (request):
+	return render (request, "behind_the_scenes.html", {'navbar': 'behind_the_scenes'},)

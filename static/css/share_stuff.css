@@ -1,5 +1,5 @@
 body {
-  padding-top: 70px;
+  padding-top: 40px; /*Changed from 70 to 40 to accomodate top banner.  Then add margin-top:30px to .jumbotron*/
   padding-bottom: 30px;
   font-size: 16px;
 }
@@ -13,6 +13,12 @@ body {
 }
 .theme-showcase .navbar .container {
   width: auto;
+}
+.jumbotron {
+  margin-top: 30px;
+}
+a:visited {
+  color: #9242CA;
 }
 
 /**************************** Sign In Page CSS *************************************/
@@ -116,27 +122,38 @@ input, select, textarea {
   width: 280px;
   max-width: 100%;
 }
+
 label {
-    min-width: 150px;
+  min-width: 150px;
 }
-#id_accept, #id_reject, #id_accept_request, #id_reject_request {
-  margin-right: 15px;
-}
+
 #id_accept {
   margin-left: -85px;
-} 
+  margin-right: 15px;
+  width: auto;
+}
 #id_reject {
   margin-left: -90px;
+  margin-right: 15px;
+  width: auto;
 }
 #id_accept_request {
   margin-left: -25px;
+  margin-right: 15px;
+    width: auto;
 }
 #id_reject_request {
   margin-left: -30px;
+  margin-right: 15px;
+  width: auto;
+}
+/*Fix text below "Profile picture on mobile phones"*/
+#id_profile_picture {
+  padding-top: 5px;
+  margin-bottom: 20px;
 }
 /***********************************************************************************/
 
-/******** Formatting for images ****************************************************/
 /*Allows images to autosize proportionally.*/
 img {
   max-width: 100%;
@@ -158,7 +175,6 @@ img {
   margin: 10px 0px 10px 10px; 
   width: 250px;
 }
-
 
 /********************** Sticky Footer based on modification of
 http://stackoverflow.com/questions/17966140/twitter-bootstrap-3-sticky-footer?rq=1*/
@@ -211,8 +227,14 @@ html, body {
   margin-top: 15px;
   margin-bottom: 10px;
 }
+.footer-inner a:visited {
+  color: #428BCA;
+}
 .social a:link, .social a:visited {
   color: #BEBEBE;
+}
+.social a:hover {
+  color: #428BCA;
 }
 
 @media only screen and (max-width: 424px) {
@@ -241,56 +263,81 @@ html, body {
 }
 /***************************************************************************************/
 
-/*Link hover boxes. Experimental*/
-#pup {
-  position:absolute;
-  z-index:200; /* always on top*/
-  padding: 3px;
-  margin-left: 10px;
-  margin-top: -20px;
-  width: 250px;
-  border: 1px solid gray;
-  background-color: #eee;
-  color: black;
-  font-size: 14px;
-  opacity: 0.7;
-  filter: alpha(opacity=70); /* For IE8 and earlier */
+/********* How it works- About Page **************************************************/
+#wrapper {
+  width: auto;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-left: 20px;
+  overflow: hidden; /*Needed to keep divs on separate lines*/
 }
 
-
+/*TO DO: ADD WEBKIt linear-gradient*/
+.number {
+  /*display: inline-block;*/
+  line-height: 30px;
+  background-color: #558C89;
+  background-image: linear-gradient(to bottom, #68AAAA 0%, #558C89 100%);
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  width:30px;
+  height: 30px;
+  color:#FFF;
+  font-weight: bold;
+  text-align: center;
+}
+.inner-text {
+  margin-left: 10px;
+  font-size: 20px;
+  position: relative;
+  top: 0px;
+}
+#left-column, #right-column {
+  float: left;
+  /*min-height: 50px;*/
+}
+#right-column {
+  width: 85%;
+}
 /***************************************************************************************/
 
-/*.btn-primary {
-    background-image: linear-gradient(to bottom, #F79B4A 0%, #D9853B 100%);
-    background-repeat: repeat-x;
-    border-color: CC7D37;
+/***************************************************************************************/
+/*Full width image for, e.g, top banner*/
+.widewrapper {
+  width:100%;
+  margin-bottom: 20px;
 }
+.widewrapper > img {
+  width:100%;
+}
+/***************************************************************************************/
 
-.btn-default, .btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger {
-    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.2);
-    box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0px 1px 1px rgba(0, 0, 0, 0.075);
-}*/
-
-/*###### Button Primary ### NONE OF THESE WORK
-.btn-primary {
-    background-image: linear-gradient(to bottom, #F79B4A 0%, #D9853B 100%);
-    background-repeat: repeat-x;
-    border-color: #CC7D37;
+a.btn { /*Needed to keep button text from changing color when visited*/
+  color:#FFF;
 }
 
 
-.btn btn-primary  {
-    background-image: linear-gradient(to bottom, #F79B4A 0%, #D9853B 100%);
-    background-repeat: repeat-x;
-    border-color: #CC7D37;
-}*/
-
-
-/*.btn-custom {
-  .button-variant(@btn-default-color; @btn-default-bg; @btn-default-border);
+/************* screen shot images with text Version 2 **************************************/
+.project-img img, .project-img-r img {
+  border: 3px solid #DDD;
 }
 
-.btn-custom {
-  .button-variant(blue; red; green);
-}*/
-  
+.project-img, .project-img-r {
+  display: inline-block;
+  margin-right: 30px;
+  margin-top: 20px;
+  width: 425px;
+  max-width: 100%;  
+}
+
+.project-img-r, .project-img-r img {
+  height: 313px;
+  margin-right: 0px;
+}
+
+.project-name {
+  margin-top: -4px;
+  background-color: #EEE;
+  padding: 15px;
+}

@@ -1,39 +1,71 @@
 {% extends 'base.html' %}
 
-{% block title %} About {% endblock %}
+{% block title %} How It Works {% endblock %}
 
 {% block body_block %}
-<div class='jumbotron jumbotron-center'>
-  <h1>About Share Stuff</h1>
-  <p>My first Web App created with Django.</p>
+
+<div class= "jumbotron jumbotron-small">
+  <h2>Getting Started with Share Stuff Is Easy</h2>
 </div>
-
-<p>This web app was my student project for the <a href="http://pdxcodeguild.com">PDX Code Guild</a>. I had so  much fun, and moments of maddening frustration, creating this project in Python and Django. I couldn't have done it without the generous help of <a href="https://www.linkedin.com/in/chrisfreemanpdx">Chris Freeman</a>, <a href="https://www.linkedin.com/in/chrischarlesjones">Chris Jones</a>, and <a href="https://www.linkedin.com/pub/ben-kulp/30/181/247">Ben Kulp</a>.  Thanks guys!</p>
-
-<p>This is a work in progress so I'll continue to improve this app and add features.</p>
-<br>
-
-<a href="https://github.com/Pat-Martinez/share_stuff"><img src="{{ STATIC_URL }}/media/github-mark-64px.png" alt='GitHub icon'></a> To view the code, visit my <a href="https://github.com/Pat-Martinez/share_stuff">GitHub</a> account.
-
+<div id="wrapper">
+  <div id="left-column">
+    <div class = "number">
+      <p>1</p>
+    </div>
+  </div>
+  <div id="right-column">
+    <p class= "inner-text">Sign Up for a free member account. <a class="btn btn-sm btn-success" href="/sharing/register/">Sign Up</button></a></p>
+  </div>
+</div>
+<div id="wrapper">
+  <div id="left-column">
+    <div class = "number">
+      <p>2</p>
+    </div>
+  </div>
+  <div id="right-column">
+    <p class= "inner-text"><a href="/sharing/groups/">Join</a> an existing Sharing Group. Or <a href="/sharing/add_group/">create</a> your own Sharing Group.</p>
+  </div>
+</div>
+<div id="wrapper">
+  <div id="left-column">
+    <div class = "number">
+      <p>3</p>
+    </div>
+  </div>
+  <div id="right-column">
+    <p class= "inner-text">Have items to lend? Simply <a href="/sharing/add_item/">add items</a> that you'd like to share. You'll receive a notification if someone wants to borrow an item. You then have the option of accepting or declining the borrow request. See below for member's page examples.</p>
+  </div>
+</div>
+<div id="wrapper">
+  <div id="left-column">
+    <div class = "number">
+      <p>4</p>
+    </div>
+  </div>
+  <div id="right-column">
+    <p class= "inner-text">Want to borrow an item? Browse your group's items and click the borrow button next to the item. The item's owner will be alerted and will then either accept or decline your request. If they accept, you'll work out the details of the pickup time, date, and location, etc via phone, text, or email. see below for member's page examples</p>
+  </div>
+</div>
 <hr>
-
-<h3>SAMPLE MEMBER ACCOUNTS</h3>
-<p><a href="/sharing/register">Register</a> as a member and add items to share or create a sharing group. Alternatively, check out the sample accounts below. These sample accounts demonstrate how the home page dynamically changes depending upon the number of borrow requests, if a member belongs to a sharing group, etc.</p>
-
-<p>Of course these accounts may change if someone logs in and adds/deletes items or accepts/rejects borrow or join requests.  I'll periodically check back and update these accounts.</p>
-  <ul>
-    <li><b>Username</b>: sample_1, <b>Password</b>: letstrythis, 
-      <br><b>Comments</b>: Bruno Sample has 3 items, 2 borrow requests and 2 join requests. He's the Moderator of the West Side Coders group.</li>
-      <br>
-    <li><b>Username</b>: sample_2, <b>Password</b>: letstrythis, 
-      <br><b>Comments</b>: Ursula Sample has 2 items and 1 borrow request. She's a member of the West Side Coders Group.</li>
-      <br>
-    <li><b>Username</b>: sample_3, <b>Password</b>: letstrythis, 
-      <br><b>Comments</b>: Zeus Sample has 1 item and does not belong to any groups.</li>
-  </ul>  
 <br>
-
-<h3>AVAILABLE SHARING GROUPS</h3>
+<div class= "jumbotron jumbotron-small">
+<h3>Member's Page Examples</h3>
+</div>
+<div class="project-img">
+  <img src="{{ STATIC_URL }}media/screen_items_borrow.jpg" alt= "screen shot of Items to Borrow"/>
+  <p class="project-name">Member's page showing a borrow request alert and a list of items available to borrow.</p>
+</div>
+<div class="project-img-r">
+  <img src="{{ STATIC_URL }}media/screen_items_lend.jpg" alt= "screen shot of Items to Lend"/>
+  <p class="project-name">Member's page showing list of items available to lend to others.</p>
+</div>
+<br>
+<hr>
+<br>
+<div class= "jumbotron jumbotron-small">
+<h3>Available Sharing Groups</h3>
+</div>
 <div class="row">
   <div class='col-md-8'>
     <ul class="list-group">
@@ -43,35 +75,8 @@
         <a href="/sharing/groups/group_info/{{ group.id }}">{{ group.name }}</a> 
       </li>
       {% endfor %}
-      {% endif %}
+      {% endif %} 
     </ul>
   </div>
 </div> 
-<br>
-
-<h3>FUTURE FEATURES</h3>
-<ul>
-  <li>Enable borrow button to work.</li>
-  <li>Enable group join request button to work</li>
-  <li>Enable moderator to remove a member from their group.</li>
-  <li>Enable member to edit one of their items.</li>
-  <li>Enable member to see a list of items they've borrowed.</li>
-  <li>Enable member to see a list of their items that are on loan.</li>
-  <li>Enable the ability to search for items.</li>
-  <li>Enable email messages to be sent for things like a member has received a borrow request or their borrow request has been accepted or rejected.</li>
-  <li>Enable an editable profile page for members.</li>
-  <li><del>Enable a javascript popup that asks a member to confirm their decision when they click the delete item button.</del></li>
-</ul>
-<br>
-
-<h3>BUGS</h3>
-<ul>
-  <li>When a member joins more than one group all sorts of craziness can occur on the member page (home page).
-  <li>File validation of image files (item images, group images, profile images) hasn't been included, thus non-image files can be uploaded. Also need to set a file size limit.</li>
-  <li>Zip code validation hasn't been included on the registration page, thus invalid zipcodes can be added.</li>
-  <li>Help me squash bugs! If you find one, I'd greatly appreciate it if you notify me at <a class="email" href="mailto:martijam123-share(at)yahoo(dot)com">martijam123-share at yahoo dot com</a></li>
-  </li>
-</ul>
-
-<hr>
 {% endblock %}

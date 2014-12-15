@@ -1,28 +1,27 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap core CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" rel="stylesheet">
+  <!-- Bootstrap core CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" rel="stylesheet">
 
-    <!-- Font Awesome -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="{% static 'css/share_stuff.css' %}" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/share_stuff.css' %}" rel="stylesheet">
 
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script> 
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script> 
 
-    <title>Share Stuff -  {% block title %} {% endblock %} </title>
-  </head>
+  <title>Share Stuff -  {% block title %} {% endblock %} </title>
+</head>
 
-<!-- ##################### 1st Bootstrap addition ####################### -->
-  <body role="document">
-<div id="wrap">   
+<body role="document">
+  <div id="wrap">   
     <!-- Fixed navbar -->
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
@@ -38,50 +37,50 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="{% if navbar == 'home' %} active {% endif %}"><a href="/sharing/">Home</a></li>
-            <li class="{% if navbar == 'about' %} active {% endif %}"><a href="/sharing/about/">About</a></li>
+            <li class="{% if navbar == 'about' %} active {% endif %}"><a href="/sharing/about/">How it Works</a></li>
+            <li class="{% if navbar == 'behind_the_scenes' %} active {% endif %}"><a href="/sharing/behind_the_scenes/">Behind the Scenes</a></li>
             {% if user.is_authenticated %}
-              <li class="{% if navbar == 'add_item' %} active {% endif %}"><a href="/sharing/add_item/">Add an Item</a></li>
+            <li class="{% if navbar == 'add_item' %} active {% endif %}"><a href="/sharing/add_item/">Add an Item</a></li>
             {% endif %}
           </ul>
           <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
-              <li><a href="/sharing/sign_out/">Sign Out</a></li>
+            <li><a href="/sharing/sign_out/">Sign Out</a></li>
             {% else %}
-              <li class="{% if navbar == 'register' %} active {% endif %}"><a href="/sharing/register/">Register</a></li>
-              <li class="{% if navbar == 'sign_in' %} active {% endif %}"><a href="/sharing/sign_in/">Sign In</a></li>
+            <li class="{% if navbar == 'register' %} active {% endif %}"><a href="/sharing/register/">Register</a></li>
+            <li class="{% if navbar == 'sign_in' %} active {% endif %}"><a href="/sharing/sign_in/">Sign In</a></li>
             {% endif %}     
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<!-- ######################### END 1st ############################ -->
-
+<!-- ########## #####  Top Banner  ############################## -->
+{% block banner %}
+{% endblock %}
 <!-- ########## Messages (Success, Error, etc.) ################## -->
-<div class="container theme-showcase" role="main">
-  <div class="row">
-    <div class="col-md-12">
+    <div class="container theme-showcase" role="main">
+      <div class="row">
+        <div class="col-md-12">
           <ul class="messages">
-              {% for message in messages %}
-              
-              {% if 'success' in message.tags %} 
-              <div class="alert alert-success" role="alert">
-                {{ message }}
-              </div>
-              {% endif %}
-              
-              {% if 'error' in message.tags %} 
-              <div class="alert alert-danger" role="alert">
-                {{ message }}
-              </div>
-              {% endif %} 
+            {% for message in messages %}
 
-              {% endfor %} 
+            {% if 'success' in message.tags %} 
+            <div class="alert alert-success" role="alert">
+              {{ message }}
+            </div>
+            {% endif %}
+
+            {% if 'error' in message.tags %} 
+            <div class="alert alert-danger" role="alert">
+              {{ message }}
+            </div>
+            {% endif %} 
+
+            {% endfor %} 
           </ul>
-   </div>
-  </div>
-<!-- ########################################## -->
-
-<!-- ##################### 2nd Bootstrap addition ####################### -->
+        </div>
+      </div>
+<!-- ######################################################### -->
       <div class="row">
         <div class="col-md-12">
           {% block body_block %}
@@ -90,34 +89,32 @@
         </div>
       </div>
     </div> <!-- /container -->
-</div> <!-- /wrap -->
-<!-- ######################### END 2nd ################################## -->
+  </div> <!-- /wrap -->
 
-<div id="footer">
-  <div class="container">
-    <div class="footer-inner">
-      <ul>
-        <li><a href="../register/">Register</a></li>
-        <li><a href="../about/">About</a></li>
-        <li><a class="email-icon" href="mailto:martijam123-share(at)yahoo(dot)com"><i class="fa fa-envelope"></i> Contact</a></li>
-      </ul>
-      <ul class="social">
-        <li><a onmouseover="nhpup.popup('Link would take you to our Twitter page.');" href='some_twitter_acct.html'><i class="fa fa-twitter"></i></a></li>
-        <li><a onmouseover="nhpup.popup('Link would take you to our Facebook page.');" href='some_facebook_acct.html'><i class="fa fa-facebook"></i></a></li>
-      </ul>
-      <p>&#169; Share Stuff. All rights reserved.</p>
+  <div id="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <ul>
+          <li><a href="../register/">Register</a></li>
+          <li><a href="../about/">About</a></li>
+          <li><a class="email-icon" href="mailto:martijam123-share(at)yahoo(dot)com"><i class="fa fa-envelope"></i> Contact</a></li>
+        </ul>
+        <ul class="social">
+          <li><a onclick="alert('Demo: Goes to my Twitter page. Replace with your company\'\s Twitter link');" href='https://twitter.com/WoodDragon'><i class="fa fa-twitter"></i></a></li>
+          <li><a onclick="alert('Demo: Goes to my Facebook page. Replace with your company\'\s Facebook link');" href='https://www.facebook.com/pat.martinez1'><i class="fa fa-facebook"></i></a></li>
+        </ul>
+        <p>&#169; Share Stuff. All rights reserved.</p>
+      </div>
     </div>
   </div>
-</div>
 
-  <!-- Bootstrap core JavaScript
-  ==================================================
-  <!-- Placed at the end of the document so the pages load faster -->
+<!-- Bootstrap core JavaScript
+==================================================
+<!-- Placed at the end of the document so the pages load faster -->
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/share_stuff.js' %}"></script>
 
   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
   <script src="{% static 'js/ie10-viewport-bug-workaround.js' %}"></script>
-
-  </body>
+</body>
 </html>

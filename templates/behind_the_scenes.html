@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %} Behind the Scenes {% endblock %}
+
+{% block body_block %}
+<div class='jumbotron jumbotron-center'>
+  <h1>Behind the Scenes: </h1>
+  <p>Background, Techie stuff, Credits, etc.</p>
+</div>
+<br>
+
+<h3>BACKGROUND</h3>
+
+<p>This web app was my student project for the <a href="http://pdxcodeguild.com">PDX Code Guild</a>. The intention was to learn how to build a dynamic, database dependent site using the Model-View-Controller approach. Some other goals were to learn how to use forms, how to use and modify a responsive framework like Bootstrap, how to incorporate Javascript/jQuery elements, and how to host a live site. 
+<p>This is a work in progress so I'll continue to improve this site and add features.</p>
+
+<br>
+<br>
+<h3>TECHIE STUFF</h3>
+
+<h4>Backend</h4>
+<ul>
+  <li>Language & Framework: Python 2.7 & Django 1.6. Six models: Member, Moderator, Item, Group, BorrowRequest, JoinRequest</li>
+  <li>Database: PostgreSQL</li>
+  <li>Host & Server: Webfaction running Apache</li>
+</ul>
+
+<h4>Frontend</h4>
+<ul>
+  <li>Bootstrap 3</li>
+  <li>Javascript & JQuery features</li>
+    <ul>
+      <li>Two scripts to make it harder for webcrawlers to harvest email.</li>
+      <li>Various alert boxes, such as confirm deletion of an item.</li>
+      <li>Google Analytics</li>
+    </ul>
+  <li>Photoshop Elements</li>
+</ul>
+
+<br>
+
+<a href="https://github.com/Pat-Martinez/share_stuff"><img src="{{ STATIC_URL }}media/github-mark-64px.png" alt='GitHub icon'></a> To view the code, visit my <a href="https://github.com/Pat-Martinez/share_stuff">GitHub</a> account.
+<br>
+<br>
+<h3>SAMPLE MEMBER ACCOUNTS</h3>
+<p>These sample accounts demonstrate how the home page dynamically changes depending upon the number of borrow requests, if a member belongs to a sharing group, etc.</p>
+
+<p>Of course these accounts may change if someone logs in and adds/deletes items or accepts/rejects borrow or join requests.  I'll periodically check back and update these accounts.</p>
+<ul>
+  <li><b>Username</b>: sample_1, <b>Password</b>: letstrythis, 
+    <br><b>Comments</b>: Bruno Sample has 3 items, 2 borrow requests and 2 join requests. He's the Moderator of the West Side Coders group.</li>
+    <br>
+  <li><b>Username</b>: sample_2, <b>Password</b>: letstrythis, 
+    <br><b>Comments</b>: Ursula Sample has 2 items and 1 borrow request. She's a member of the West Side Coders Group.</li>
+    <br>
+  <li><b>Username</b>: sample_3, <b>Password</b>: letstrythis, 
+    <br><b>Comments</b>: Zeus Sample has 1 item and does not belong to any groups.</li>
+</ul>  
+<br>
+<br>
+<h3>FUTURE FEATURES</h3>
+<ul>
+  <li>Enable borrow button to work.</li>
+  <li>Enable group join request button to work</li>
+  <li>Enable moderator to remove a member from their group.</li>
+  <li>Enable member to edit one of their items.</li>
+  <li>Enable member to see a list of items they've borrowed.</li>
+  <li>Enable member to see a list of their items that are on loan.</li>
+  <li>Enable the ability to search for items.</li>
+  <li>Enable email messages to be sent for things like a member has received a borrow request or their borrow request has been accepted or rejected.</li>
+  <li>Enable an editable profile page for members.</li>
+  <li><del>Enable a javascript popup that asks a member to confirm their decision when they click the delete item button.</del></li>
+</ul>
+<br>
+<br>
+<h3>BUGS</h3>
+<ul>
+  <li>When a member joins more than one group all sorts of craziness can occur on the member page (home page).</li>
+  <li>File validation of image files (item images, group images, profile images) hasn't been included, thus non-image files can be uploaded. Also need to set a file size limit.</li>
+  <li>Zip code validation hasn't been included on the registration page, thus invalid zipcodes can be added.</li>
+  <li>Help me squash bugs! If you find one, I'd greatly appreciate it if you notify me at <a class="email" href="mailto:martijam123-share(at)yahoo(dot)com">martijam123-share at yahoo dot com</a></li>
+</ul>
+
+ <br>
+ <br> 
+<h3>CREDITS</h3>
+ <p>I couldn't have created this site without the generous help of <a href="https://www.linkedin.com/in/chrisfreemanpdx">Chris Freeman</a>, <a href="https://www.linkedin.com/in/chrischarlesjones">Chris Jones</a>, and <a href="https://www.linkedin.com/pub/ben-kulp/30/181/247">Ben Kulp</a>.  Thanks guys!</p>
+
+{% endblock %}

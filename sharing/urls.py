@@ -26,6 +26,7 @@ urlpatterns = patterns('',
         url(r'^(?i)borrow_requests/process/(?P<borrow_id>\w+)/$', 
                 views.borrow_req_process, name='process'),
         url(r'^(?i)under_construction/$', views.under_construction, name='under_construction'),
+        url(r'^(?i)behind_the_scenes/$', views.behind_the_scenes, name='behind_the_scenes'),
 
 
 )

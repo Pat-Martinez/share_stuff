@@ -1,30 +1,40 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  {% if member %} 
-    {{ user.first_name }} {{ user.last_name }}
-  {% else %} 
-    Welcome!
-  {% endif %} 
+{% if member %} 
+  {{ user.first_name }} {{ user.last_name }}
+{% else %} 
+  Welcome!
+{% endif %} 
 {% endblock %}
 
-{% block body_block %}
-
-{% if member %}
-
-<div class="jumbotron jumbotron-small">
-    {% if groups %}
-    {% for group in groups %}
-        <h2>Welcome {{ user.first_name }} <small>to the "{{ group.name }}" sharing group</small></h2>
-    {% endfor %}
-    {% else %}
-      <h2>Welcome {{ user.first_name }} <small>You haven't joined any sharing groups yet.</small></h2>
-      <hr>
-      <h4>Would you like to join a group? <small><a href="/sharing/groups/">See list of groups.</a></small></h4>
-      <h4>Would you like to create your own group? <small><a href="/sharing/add_group">Create a group.</a></small></h4>  
-    {% endif %}
+{% block banner %}
+{% if not member %}
+  <div class="widewrapper main">
+    <img src="{{ STATIC_URL }}media/Share_Stuff_Banner-V2.jpg" class="img-responsive" alt="Top Banner Image">
+  </div>
+<div class= "container text-center">
+  <h1>Share Stuff facilitates the lending and borrowing of items among your friends, club members, etc.</h1>
+  <br>
+  <a class="btn btn-lg btn-success" href="about">How It Works</button></a>
 </div>
+{% endif %}
+{% endblock %}
 
+{% block body_block %} 
+{% if member %}
+<div class="jumbotron jumbotron-small">
+  {% if groups %}
+  {% for group in groups %}
+    <h2>Welcome {{ user.first_name }} <small>to the "{{ group.name }}" sharing group</small></h2>
+  {% endfor %}
+  {% else %}
+    <h2>Welcome {{ user.first_name }} <small>You haven't joined any sharing groups yet.</small></h2>
+    <hr>
+    <h4>Would you like to join a group? <small><a href="/sharing/groups/">See list of groups.</a></small></h4>
+    <h4>Would you like to create your own group? <small><a href="/sharing/add_group">Create a group.</a></small></h4>  
+  {% endif %}
+</div>
 <!-- ############### Show Join Requests if moderator & they have requests ################# -->
 {% if join_requests_pending %}
   <h4><span class="glyphicon glyphicon-hand-right"></span> You have <font color="red"><strong>"{{ join_requests_pending|length }}"</strong></font> request{{ join_requests_pending|pluralize }} to join your group. <small><a href="/sharing/join_requests/">View Request{{ join_requests_pending|pluralize }}</a></small></h4>
@@ -40,107 +50,84 @@
 <br>
 <!-- ##################### List of Group Items available to borrow ########################## -->
 {% if items_to_borrow %}
-  {% for group in groups %}
-    <h3>Items Available to Borrow From "{{ group.name }}"</h3>
-  {% endfor %}
-
+{% for group in groups %}
+  <h3>Items Available to Borrow From "{{ group.name }}"</h3>
+{% endfor %}
   <div class="row">
     <div class='col-md-8'>
       <ul class="list-group">
-          {% if group_items %}
-          {% for item in items_to_borrow %}
-            <li class="list-group-item">
+        {% if group_items %}
+        {% for item in items_to_borrow %}
+          <li class="list-group-item">
+            <!-- TO DO: complete logic for borrow -->
+            <!-- <form method="post" action="/sharing/borrow_requests/process/{{ req.id }}/"> -->
+            {% if item.photo %}
+              <img class="img_item_thumb" src="{{ STATIC_URL }}media/{{ item.photo }}" alt="Item Photo"/>
+            {% else %}
+              <img class="img_item_thumb" src="{{ STATIC_URL }}media/item_images/blank_image.jpeg" alt="Item Photo"/>
+            {% endif %}
 
-              <!-- TO DO: complete logic for borrow -->
-              <!-- <form method="post" action="/sharing/borrow_requests/process/{{ req.id }}/"> -->
-
-                {% if item.photo %}
-                  <img class="img_item_thumb" src="{{ STATIC_URL }}media/{{ item.photo }}" alt="Item Photo"/>
-                  {% else %}
-                  <img class="img_item_thumb" src="{{ STATIC_URL }}media/item_images/blank_image.jpeg" alt="Item Photo"/>
-                {% endif %}
-
-                {{ item.name }}
+            {{ item.name }}
               <div>
                 <!-- TO DO: complete logic for borrow -->
                 <!-- <button class="btn btn-xs btn-primary" type="button">Borrow</a> -->
                 <a class="btn btn-xs btn-primary" href="/sharing/under_construction/">Borrow</a>
               </div>
             </li>  
-          {% endfor %}
-          {% endif %}
+        {% endfor %}
+        {% endif %}
       </ul>
     </div>
   </div>          
 {% else %}
-  {% for group in groups %}
-    <h3>{{ group.name }} Items Available to Borrow</h3> <strong>There are currently no items to borrow.</strong>
-  {% endfor %}
+{% for group in groups %}
+  <h3>{{ group.name }} Items Available to Borrow</h3> <strong>There are currently no items to borrow.</strong>
+{% endfor %}
 {% endif %}
- 
 <!-- ######################################################################################## -->
 
 <!-- ##################### List of member's items ###########################################-->
- <h3> Your Items Available to Share </h3>
+<h3> Your Items Available to Share </h3>
 {% if items %}
-<div class="row">
-  <div class='col-md-8'>
+  <div class="row">
+    <div class='col-md-8'>
       <ul class="list-group">   
-          {% for item in items %}
-          <li class="list-group-item" >
-            {% if item.photo %}
-              <img class="img_item_thumb" src="{{ STATIC_URL }}media/{{ item.photo }}" alt="Item Photo"/>
-            {% else %}
-              <img class="img_item_thumb" src="{{ STATIC_URL }}media/item_images/blank_image.jpeg" alt="Item Photo"/>
-            {% endif %}
-              {{ item.name }}
-              <div>
-                <a class="btn btn-xs btn-primary" href="/sharing/inventory/item_info/{{ item.id }}/">Edit</a>
-              </div>
-          </li>
-          {% endfor %}
+        {% for item in items %}
+        <li class="list-group-item" >
+          {% if item.photo %}
+          <img class="img_item_thumb" src="{{ STATIC_URL }}media/{{ item.photo }}" alt="Item Photo"/>
+          {% else %}
+          <img class="img_item_thumb" src="{{ STATIC_URL }}media/item_images/blank_image.jpeg" alt="Item Photo"/>
+          {% endif %}
+          {{ item.name }}
+          <div>
+            <a class="btn btn-xs btn-primary" href="/sharing/inventory/item_info/{{ item.id }}/">Edit</a>
+          </div>
+        </li>
+        {% endfor %}
       </ul>  
 {% else %}
   <strong>You currently have no items.</strong> <a href="/sharing/add_item"> Add an item.</a><br><br>
 {% endif %}
-</div>
     </div>
+  </div>
 <!-- ######################################################################################## -->
 
 <!-- ############## List of Group's Members #################################################-->
-{% if groups %} <!-- 45 -->
-  {% for group in groups %} <!-- 46 -->
-    <h3>Members of the group "{{ group.name }}"</h3>
-    <ul>
-      {% for member in group_members %}
-      {% if member == group.moderator.member %}
-        <li>{{ group.moderator.member.user.get_full_name }} (Group Moderator)</li>
-      {% else %}
-        <li>{{ member.user.get_full_name }}</li>
-      {% endif %}
-      {% endfor %}
-    </ul>
-    <br>
-  {% endfor %} <!-- endfor 46 -->
-{% endif %} <!-- endif 45 -->
-
-<!-- ######################################################################################## -->
-
-{% else %}
-
-<div class='jumbotron jumbotron-center'>
-  <div class ='container'>
-  <h1>Welcome to Share Stuff!</h1>
-    <div class='col-lg-8 col-lg-offset-2'> 
-      <p>Need a cordless drill or kitchen appliance for that one-time or rare project and would rather borrow than buy one? 
-      <br>Give Share Stuff a try.</p>
-      <p>List items (kitchen stuff, electronics, tools, outdoor gear, etc.) that you're willing to share with others, and find stuff to borrow.</p>
-      <br>
-      <a class="btn btn-lg btn-success" href="about">Learn More</button></a>
-    </div>
-  </div>
-</div>
-
-{% endif %}
-
+{% if groups %} <!-- if groups -->
+{% for group in groups %} <!-- for groups -->
+  <h3>Members of the group "{{ group.name }}"</h3>
+  <ul>
+    {% for member in group_members %}
+    {% if member == group.moderator.member %}
+    <li>{{ group.moderator.member.user.get_full_name }} (Group Moderator)</li>
+    {% else %}
+    <li>{{ member.user.get_full_name }}</li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+  <br>
+{% endfor %} <!-- endfor groups -->
+{% endif %} <!-- endif groups -->
+{% endif %} <!-- {endif members} ~line 23 -->
 {% endblock %}
